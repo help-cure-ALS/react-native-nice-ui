@@ -2,16 +2,12 @@
     "extends": "./tsconfig.json",
     "compilerOptions": {
         "outDir": "dist",
+        "rootDir": "src",
         "declaration": true,
-        "declarationMap": false,
         "emitDeclarationOnly": false,
-        "sourceMap": false,
-        "jsx": "react-jsx",
-        "module": "commonjs",
-        "target": "es2019",
+        "jsx": "react-native",
         "moduleResolution": "node",
-        "esModuleInterop": true,
         "skipLibCheck": true
     },
-    "include": ["src/**/*"]
+    "include": ["src"]
 }

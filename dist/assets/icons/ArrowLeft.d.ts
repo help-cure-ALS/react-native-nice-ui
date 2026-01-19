@@ -1,2 +1,3 @@
+import * as React from 'react';
 import type { SvgProps } from 'react-native-svg';
-export declare function ArrowLeft(props: SvgProps): import("react/jsx-runtime").JSX.Element;
+export declare function ArrowLeft(props: SvgProps): React.JSX.Element;

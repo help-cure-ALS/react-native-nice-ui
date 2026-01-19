@@ -1,8 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.darkUIColors = exports.lightUIColors = void 0;
-const react_native_1 = require("react-native");
-exports.lightUIColors = {
+import { Platform } from 'react-native';
+export const lightUIColors = {
     statusBarStyle: 'dark-content',
     statusBar: '#ffffff',
     tint: '#007AFF',
@@ -16,14 +13,14 @@ exports.lightUIColors = {
     listItemIcon: '#afafba',
     listItemBackground: '#ffffff',
     listItemBackgroundPress: '#e3e3e3',
-    listItemBorder: react_native_1.Platform.select({
+    listItemBorder: Platform.select({
         ios: '#c8c7cc',
         android: '#e0e0e0',
         default: '#e0e0e0'
     }),
     checkboxDisabled: '#C7C7CC'
 };
-exports.darkUIColors = {
+export const darkUIColors = {
     statusBarStyle: 'light-content',
     statusBar: 'rgb(18, 18, 18)',
     tint: '#0099ff',
@@ -37,7 +34,7 @@ exports.darkUIColors = {
     listItemIcon: 'rgba(255,255,255,0.3)',
     listItemBackground: 'rgba(255,255,255,0.07)',
     listItemBackgroundPress: 'rgba(255,255,255,0.1)',
-    listItemBorder: react_native_1.Platform.select({
+    listItemBorder: Platform.select({
         ios: 'rgba(255,255,255,0.24)',
         android: '#343434',
         default: '#343434'
