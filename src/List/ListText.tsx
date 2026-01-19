@@ -8,7 +8,7 @@ import {
     View,
     ViewStyle
 } from 'react-native';
-import { useTheme } from '../theme';
+import { useTheme, UIColors } from '../theme';
 
 export type ListTextProps = {
     children?: ReactNode;
@@ -33,7 +33,7 @@ const ListText = memo<ListTextProps>((props) => {
     );
 });
 
-const createStyles = (colors) =>
+const createStyles = (colors: UIColors) =>
     StyleSheet.create({
         wrapper: {
             paddingVertical: 18,
