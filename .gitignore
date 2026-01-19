@@ -28,7 +28,6 @@ Thumbs.db
 # ------------------------------
 # Build output (falls später genutzt)
 # ------------------------------
-dist/
 build/
 lib/
 
