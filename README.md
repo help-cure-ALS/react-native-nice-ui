@@ -18,7 +18,7 @@ npm install github:help-cure-ALS/react-native-nice-ui
 or with a specific version tag:
 
 ```bash
-npm install github:help-cure-ALS/react-native-nice-ui#v0.1.0
+npm install github:help-cure-ALS/react-native-nice-ui#v0.1.2
 ```
 
 ---

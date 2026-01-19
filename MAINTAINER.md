@@ -25,6 +25,7 @@ You are responsible for:
 - **Apps never import from `src/`**
 - **UI never imports from app code**
 - **Breaking changes require a version bump**
+- **Tags always point to a commit that includes `dist/`**
 
 ---
 
@@ -44,7 +45,8 @@ react-native-nice-ui/
 ├─ package.json
 ├─ tsconfig.json
 ├─ tsconfig.build.json
-└─ README.md
+├─ README.md
+└─ MAINTAINER.md
 ```
 
 ---
@@ -61,27 +63,45 @@ npm install
 npm run build
 ```
 
-### Commit changes
+### Verify output
+```bash
+ls dist
+```
+
+Must contain at least:
+- `index.js`
+- `index.d.ts`
+
+---
+
+## Commit Rules
+
+Always commit **source + build output** together.
+
 ```bash
 git add src dist
-git commit -m "feat: description"
+git commit -m "feat: add List.Section component"
 ```
 
 ---
 
-## Versioning Rules
+## Versioning (Semantic Versioning)
 
 - Patch: bug fixes
-- Minor: new features (compatible)
+- Minor: new features
 - Major: breaking changes
+
+Update `package.json` accordingly.
 
 ---
 
-## Theme Contract Rules
+## Release Workflow (Tagging)
 
-- UI uses **UIColors only**
-- App injects **AppColors**
-- No app-specific colors inside UI
+```bash
+git tag -a v0.1.3 -m "Release v0.1.3"
+git push origin main
+git push origin v0.1.3
+```
 
 ---
 
@@ -89,7 +109,6 @@ git commit -m "feat: description"
 
 Icons are exported as React components via `react-native-svg`.
 
-Example:
 ```tsx
 <ArrowRight width={20} height={20} fill={colors.listItemIcon} />
 ```
