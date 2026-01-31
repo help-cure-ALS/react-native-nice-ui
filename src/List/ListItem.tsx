@@ -16,6 +16,7 @@ import {
 import { ArrowRight, CheckboxEmpty, CheckboxChecked } from '../assets/icons';
 import { useTheme } from '../theme';
 import { isIOSVersionOrHigher } from '../platform';
+import { useListContext } from './List';
 
 export type ListItemProps = {
     // text / containers
@@ -90,6 +91,7 @@ export type ListItemProps = {
 
 const ListItem = memo<ListItemProps>((props) => {
     const { colors } = useTheme();
+    const { spaced } = useListContext();
     const styles = useMemo(() => createStyles(), []);
 
     const {
@@ -152,6 +154,9 @@ const ListItem = memo<ListItemProps>((props) => {
     // For checkbox type, hideChevron defaults to true but can be overridden with hideChevron={false}
     const hideChevron = hideChevronProp ?? (type === 'checkbox');
 
+    // In spaced mode, each item is a separate card (no dividers)
+    const effectiveLastItem = spaced || lastItem;
+
     const hasLeftCmp = !!leftCmp;
     const hasImageSource = !!imageSource;
     const hasImageSvg = !!imageAsSvg;
@@ -172,6 +177,7 @@ const ListItem = memo<ListItemProps>((props) => {
             accessibilityState={ type === 'checkbox' ? { checked: !!checked, disabled } : { disabled } }
             style={ ({ pressed }) => [
                 styles.container,
+                spaced && styles.containerSpaced,
                 { backgroundColor: colors.listItemBackground },
                 containerStyle,
                 disabled && { opacity: 0.5 },
@@ -183,7 +189,7 @@ const ListItem = memo<ListItemProps>((props) => {
                     styles.wrapper,
                     // divider defaults
                     { borderBottomColor: colors.listItemBorder },
-                    lastItem && { borderBottomWidth: 0 },
+                    effectiveLastItem && { borderBottomWidth: 0 },
                     dividerStyle,
                     wrapperStyle
                 ] }
@@ -289,6 +295,10 @@ const ListItem = memo<ListItemProps>((props) => {
 const createStyles = () =>
     StyleSheet.create({
         container: {},
+        containerSpaced: {
+            borderRadius: isIOSVersionOrHigher(26) ? 14 : 10,
+            overflow: 'hidden'
+        },
         leftCmpWrapper: {
             marginRight: 15,
             overflow: 'hidden'

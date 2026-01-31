@@ -1,4 +1,4 @@
-import React, { memo, useMemo, ReactNode } from 'react';
+import React, { memo, useMemo, ReactNode, createContext, useContext } from 'react';
 import {
     Platform,
     StyleSheet,
@@ -13,10 +13,23 @@ import {
 import { useTheme } from '../theme';
 import { isIOSVersionOrHigher } from '../platform';
 
+// Context for spaced list layout (card-style items)
+interface ListContextType {
+    spaced: boolean;
+}
+
+const ListContext = createContext<ListContextType>({ spaced: false });
+
+export const useListContext = () => useContext(ListContext);
+
 export type ListProps = ViewProps & {
     children?: ReactNode;
     rounded?: boolean;
     borders?: boolean;
+    /** Card-style layout with gap between items. Each item gets rounded corners automatically. */
+    spaced?: boolean;
+    /** Gap size between items when spaced is true. Default: 10 */
+    spacing?: number;
     title?: string;
     rightCmp?: ReactNode;
 
@@ -30,6 +43,8 @@ const List = memo<ListProps>((props) => {
         children,
         rounded = false,
         borders = true,
+        spaced = false,
+        spacing = 10,
         containerStyle,
         title,
         titleStyle,
@@ -41,7 +56,10 @@ const List = memo<ListProps>((props) => {
     const { colors } = useTheme();
     const styles = useMemo(() => createStyles(), []);
 
-    const containerBorders: ViewStyle = borders
+    // When spaced, disable borders (each item has its own)
+    const effectiveBorders = spaced ? false : borders;
+
+    const containerBorders: ViewStyle = effectiveBorders
         ? rounded
             ? { borderWidth: StyleSheet.hairlineWidth, borderColor: colors.border }
             : {
@@ -51,30 +69,37 @@ const List = memo<ListProps>((props) => {
             }
         : {};
 
-    return (
-        <View style={[styles.wrapper, rounded && styles.wrapperRounded, style]}>
-            {(title || rightCmp) && (
-                <View style={styles.titleWrapper}>
-                    {!!title && (
-                        <Text style={[styles.title, { color: colors.textHint }, titleStyle]} numberOfLines={1}>
-                            {title}
-                        </Text>
-                    )}
-                    {!!rightCmp && <View style={styles.rightContainer}>{rightCmp}</View>}
-                </View>
-            )}
+    const spacedStyle: ViewStyle = spaced ? { gap: spacing } : {};
 
-            <View
-                {...attributes}
-                style={[
-                    rounded && styles.containerRounded,
-                    containerBorders,
-                    containerStyle
-                ]}
-            >
-                {children}
+    const contextValue = useMemo(() => ({ spaced }), [spaced]);
+
+    return (
+        <ListContext.Provider value={contextValue}>
+            <View style={[styles.wrapper, (rounded || spaced) && styles.wrapperRounded, style]}>
+                {(title || rightCmp) && (
+                    <View style={styles.titleWrapper}>
+                        {!!title && (
+                            <Text style={[styles.title, { color: colors.textHint }, titleStyle]} numberOfLines={1}>
+                                {title}
+                            </Text>
+                        )}
+                        {!!rightCmp && <View style={styles.rightContainer}>{rightCmp}</View>}
+                    </View>
+                )}
+
+                <View
+                    {...attributes}
+                    style={[
+                        rounded && styles.containerRounded,
+                        containerBorders,
+                        spacedStyle,
+                        containerStyle
+                    ]}
+                >
+                    {children}
+                </View>
             </View>
-        </View>
+        </ListContext.Provider>
     );
 });
 

@@ -9,6 +9,10 @@ export type ListSectionProps = ViewProps & {
 
     rounded?: boolean;
     borders?: boolean;
+    /** Card-style layout with gap between items. Each item gets rounded corners automatically. */
+    spaced?: boolean;
+    /** Gap size between items when spaced is true. Default: 10 */
+    spacing?: number;
 
     style?: StyleProp<ViewStyle>;
     containerStyle?: StyleProp<ViewStyle>;
@@ -22,6 +26,8 @@ const ListSection = memo<ListSectionProps>((props) => {
         rightCmp,
         rounded = false,
         borders = true,
+        spaced = false,
+        spacing,
         style,
         containerStyle,
         titleStyle,
@@ -36,6 +42,8 @@ const ListSection = memo<ListSectionProps>((props) => {
             rightCmp={rightCmp}
             rounded={rounded}
             borders={borders}
+            spaced={spaced}
+            spacing={spacing}
             style={style}
             containerStyle={containerStyle}
             titleStyle={titleStyle}
