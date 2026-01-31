@@ -13,11 +13,18 @@
         "build": "tsc -p tsconfig.build.json"
     },
     "peerDependencies": {
+        "@react-native-community/slider": "*",
         "react": "*",
         "react-native": "*",
         "react-native-svg": "*"
     },
+    "peerDependenciesMeta": {
+        "@react-native-community/slider": {
+            "optional": true
+        }
+    },
     "devDependencies": {
+        "@react-native-community/slider": "^5.1.2",
         "@types/react": "^19.2.8",
         "typescript": "^5.9.3"
     }
