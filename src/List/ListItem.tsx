@@ -305,7 +305,7 @@ const ListItem = memo<ListItemProps>((props) => {
                     {showSubtitle && (
                         <Text
                             numberOfLines={subtitleNumberOfLines}
-                            style={[styles.subtitle, { color: colors.textHint }, subtitleStyle]}
+                            style={[styles.subtitle, { color: colors.textTertiary }, subtitleStyle]}
                         >
                             {subtitle as string}
                         </Text>
@@ -316,7 +316,7 @@ const ListItem = memo<ListItemProps>((props) => {
                     <View style={[styles.rightTitleContainer, rightTitleContainerStyle]}>
                         <Text
                             numberOfLines={1}
-                            style={[styles.rightTitle, { color: colors.textHint }, rightTitleStyle]}
+                            style={[styles.rightTitle, { color: colors.textTertiary }, rightTitleStyle]}
                         >
                             {rightTitle}
                         </Text>

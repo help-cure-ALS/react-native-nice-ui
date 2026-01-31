@@ -204,7 +204,7 @@ const ListInputItemComponent = forwardRef<ListInputItemRef, ListInputItemProps>(
                         style={[
                             styles.label,
                             inline && styles.labelInline,
-                            { color: inline ? colors.textPrimary : colors.textHint },
+                            { color: inline ? colors.textPrimary : colors.textTertiary },
                             isFocused && styles.labelFocused,
                             labelStyle
                         ]}

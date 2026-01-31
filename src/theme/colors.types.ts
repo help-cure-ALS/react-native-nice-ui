@@ -14,7 +14,6 @@ export interface UIColors {
 
     primary: string;
 
-    listText: string;
     listItemIcon: string;
     listItemBackground: string;
     listItemBackgroundPress: string;

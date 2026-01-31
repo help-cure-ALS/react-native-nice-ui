@@ -82,7 +82,7 @@ export const ListSectionCard = memo<ListSectionCardProps>(({
             fontSize: tokens.fontSizeXs + 1,
             fontWeight: tokens.fontWeightMedium,
             marginBottom: tokens.spacingXs,
-            color: colors.textHint
+            color: colors.textTertiary
         } as TextStyle,
         title: {
             fontSize: tokens.fontSizeLg,

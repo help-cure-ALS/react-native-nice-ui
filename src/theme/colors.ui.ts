@@ -2,11 +2,10 @@ import { Platform } from 'react-native';
 import type { UIColors } from './colors.types';
 
 export const lightUIColors: UIColors = {
-    statusBarStyle: 'dark-content',
-    statusBar: '#ffffff',
+    primary: '#007AFF',
     tint: '#007AFF',
 
-    background: '#f5f5f5',
+    background: '#F2F2F6',
 
     textPrimary: '#000000',
     textSecondary: 'rgba(0,0,0,0.7)',
@@ -15,9 +14,6 @@ export const lightUIColors: UIColors = {
 
     border: 'rgb(216, 216, 216)',
 
-    primary: '#007AFF',
-
-    listText: 'rgba(0,0,0,0.4)',
     listItemIcon: '#afafba',
     listItemBackground: '#ffffff',
     listItemBackgroundPress: '#e3e3e3',
@@ -26,12 +22,15 @@ export const lightUIColors: UIColors = {
         android: '#e0e0e0',
         default: '#e0e0e0'
     }) as string,
-    checkboxDisabled: '#C7C7CC'
+
+    checkboxDisabled: '#C7C7CC',
+
+    statusBarStyle: 'dark-content',
+    statusBar: '#ffffff',
 };
 
 export const darkUIColors: UIColors = {
-    statusBarStyle: 'light-content',
-    statusBar: 'rgb(18, 18, 18)',
+    primary: '#0099ff',
     tint: '#0099ff',
 
     background: '#1C1C1E',
@@ -43,9 +42,6 @@ export const darkUIColors: UIColors = {
 
     border: 'rgb(39, 39, 41)',
 
-    primary: '#0099ff',
-
-    listText: 'rgba(255, 255, 255, 0.35)',
     listItemIcon: 'rgba(255,255,255,0.3)',
     listItemBackground: 'rgba(255,255,255,0.07)',
     listItemBackgroundPress: 'rgba(255,255,255,0.1)',
@@ -54,5 +50,9 @@ export const darkUIColors: UIColors = {
         android: '#343434',
         default: '#343434'
     }) as string,
-    checkboxDisabled: 'rgba(255,255,255, 0.15)'
+
+    checkboxDisabled: 'rgba(255,255,255, 0.15)',
+
+    statusBarStyle: 'light-content',
+    statusBar: 'rgb(18, 18, 18)',
 };

@@ -124,7 +124,7 @@ const List = memo<ListProps>((props) => {
                 {(title || rightCmp) && (
                     <View style={styles.titleWrapper}>
                         {!!title && (
-                            <Text style={[styles.title, { color: colors.textHint }, titleStyle]} numberOfLines={1}>
+                            <Text style={[styles.title, { color: colors.textTertiary }, titleStyle]} numberOfLines={1}>
                                 {title}
                             </Text>
                         )}

@@ -32,7 +32,7 @@ const ListText = memo<ListTextProps>((props) => {
         },
         text: {
             lineHeight: tokens.lineHeightXs,
-            color: colors.listText,
+            color: colors.textTertiary,
             fontSize: tokens.fontSizeXs + 1,
             ...(Platform.OS === 'android' && { fontWeight: tokens.fontWeightMedium })
         } as TextStyle

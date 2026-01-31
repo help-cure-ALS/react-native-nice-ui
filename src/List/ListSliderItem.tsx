@@ -198,7 +198,7 @@ export const ListSliderItem = memo<ListSliderItemProps>((props) => {
                         <Text
                             style={[
                                 styles.label,
-                                { color: colors.textHint },
+                                { color: colors.textTertiary },
                                 isFocused && styles.labelFocused,
                                 labelStyle
                             ]}

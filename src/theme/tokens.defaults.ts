@@ -6,7 +6,7 @@ export const defaultTokens: UITokens = {
     // Typography - Font Sizes
     fontSizeXs: 12,
     fontSizeSm: 14,
-    fontSizeMd: 16,
+    fontSizeMd: 16.5,
     fontSizeLg: 17,
     fontSizeXl: 18,
 
