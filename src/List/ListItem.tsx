@@ -135,7 +135,7 @@ const ListItem = memo<ListItemProps>((props) => {
         type = null,
         checked = null,
         checkboxSize = 28,
-        hideChevron = false,
+        hideChevron: hideChevronProp,
         rightIconSize = 20,
         rightIconColor = colors.listItemIcon,
 
@@ -148,6 +148,9 @@ const ListItem = memo<ListItemProps>((props) => {
         // children
         children
     } = props;
+
+    // For checkbox type, hideChevron defaults to true but can be overridden with hideChevron={false}
+    const hideChevron = hideChevronProp ?? (type === 'checkbox');
 
     const hasLeftCmp = !!leftCmp;
     const hasImageSource = !!imageSource;
