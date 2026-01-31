@@ -49,7 +49,7 @@ const COLORS = {
 };
 
 const Button = memo<ButtonProps>((props) => {
-    const { colors, isDark } = useTheme();
+    const { colors, tokens, isDark } = useTheme();
     const styles = useMemo(() => createStyles(), []);
 
     const {
@@ -73,9 +73,24 @@ const Button = memo<ButtonProps>((props) => {
     const isPressable = !!(onPress || onLongPress) && !disabled && !loading;
 
     const sizeStyles = {
-        small: { height: 36, paddingHorizontal: 12, fontSize: 14, iconSize: 36 },
-        medium: { height: 44, paddingHorizontal: 16, fontSize: 16, iconSize: 44 },
-        large: { height: 52, paddingHorizontal: 20, fontSize: 18, iconSize: 52 }
+        small: {
+            height: tokens.buttonHeightSm,
+            paddingHorizontal: tokens.buttonPaddingHorizontalSm,
+            fontSize: tokens.fontSizeSm,
+            iconSize: tokens.buttonHeightSm
+        },
+        medium: {
+            height: tokens.buttonHeightMd,
+            paddingHorizontal: tokens.buttonPaddingHorizontalMd,
+            fontSize: tokens.fontSizeMd,
+            iconSize: tokens.buttonHeightMd
+        },
+        large: {
+            height: tokens.buttonHeightLg,
+            paddingHorizontal: tokens.buttonPaddingHorizontalLg,
+            fontSize: tokens.fontSizeXl,
+            iconSize: tokens.buttonHeightLg
+        }
     };
 
     const getTintedBackground = () => {
@@ -173,7 +188,7 @@ const Button = memo<ButtonProps>((props) => {
                         height: currentSize.height,
                         width: buttonWidth,
                         paddingHorizontal: buttonPadding,
-                        borderRadius: (rounded || iconOnly) ? currentSize.height / 2 : 10
+                        borderRadius: (rounded || iconOnly) ? currentSize.height / 2 : tokens.buttonRadius
                     },
                     fullWidth && styles.fullWidth,
                     variantStyles.container,
@@ -194,7 +209,7 @@ const Button = memo<ButtonProps>((props) => {
                         ) : (
                             <>
                                 {leftIcon && (
-                                    <View style={iconOnly ? undefined : styles.iconLeft}>
+                                    <View style={iconOnly ? undefined : { marginRight: tokens.spacingSm }}>
                                         {leftIcon}
                                     </View>
                                 )}
@@ -202,7 +217,7 @@ const Button = memo<ButtonProps>((props) => {
                                     <Text
                                         style={[
                                             styles.text,
-                                            { fontSize: currentSize.fontSize },
+                                            { fontSize: currentSize.fontSize, fontWeight: tokens.fontWeightSemibold },
                                             variantStyles.text,
                                             textStyle
                                         ]}
@@ -212,7 +227,7 @@ const Button = memo<ButtonProps>((props) => {
                                     </Text>
                                 )}
                                 {rightIcon && (
-                                    <View style={iconOnly ? undefined : styles.iconRight}>
+                                    <View style={iconOnly ? undefined : { marginLeft: tokens.spacingSm }}>
                                         {rightIcon}
                                     </View>
                                 )}
@@ -240,14 +255,7 @@ const createStyles = () =>
             justifyContent: 'center'
         },
         text: {
-            fontWeight: '600',
             textAlign: 'center'
-        },
-        iconLeft: {
-            marginRight: 8
-        },
-        iconRight: {
-            marginLeft: 8
         },
         disabled: {
             opacity: 0.5

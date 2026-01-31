@@ -1,4 +1,4 @@
-import React, { memo, useMemo, ReactNode } from 'react';
+import React, { memo, ReactNode } from 'react';
 import {
     Image,
     Platform,
@@ -15,7 +15,6 @@ import {
 
 import { ArrowRight, CheckboxEmpty, CheckboxChecked } from '../assets/icons';
 import { useTheme } from '../theme';
-import { isIOSVersionOrHigher } from '../platform';
 import { useListContext } from './List';
 
 export type ListItemProps = {
@@ -90,9 +89,8 @@ export type ListItemProps = {
 };
 
 const ListItem = memo<ListItemProps>((props) => {
-    const { colors } = useTheme();
+    const { colors, tokens } = useTheme();
     const { spaced } = useListContext();
-    const styles = useMemo(() => createStyles(), []);
 
     const {
         // text / containers
@@ -165,201 +163,196 @@ const ListItem = memo<ListItemProps>((props) => {
 
     const showSubtitle = subtitle !== null && subtitle !== '';
 
+    // Dynamic styles using tokens
+    const styles = {
+        container: {} as ViewStyle,
+        containerSpaced: {
+            borderRadius: tokens.listItemRadius,
+            overflow: 'hidden' as const
+        },
+        leftCmpWrapper: {
+            marginRight: tokens.spacingLg,
+            overflow: 'hidden' as const
+        },
+        imageWrapper: {
+            marginRight: tokens.spacingLg,
+            overflow: 'hidden' as const
+        },
+        listItemImage: {
+            borderRadius: tokens.radiusSm
+        },
+        wrapper: {
+            paddingTop: tokens.listItemPaddingVertical,
+            paddingRight: tokens.listItemPaddingRight,
+            paddingBottom: tokens.listItemPaddingVertical,
+            backgroundColor: 'transparent',
+            flexDirection: 'row' as const,
+            alignItems: 'center' as const,
+            minHeight: tokens.listItemMinHeight,
+            borderBottomWidth: StyleSheet.hairlineWidth,
+            marginLeft: tokens.listItemMarginLeft
+        },
+        titleRow: {
+            flexDirection: 'row' as const,
+            alignItems: 'center' as const
+        },
+        titleContainer: {
+            flex: 1,
+            alignItems: 'flex-start' as const
+        },
+        title: {
+            fontSize: tokens.fontSizeMd + 0.5,
+            fontWeight: tokens.fontWeightNormal,
+            marginRight: 5
+        },
+        titleMediaStyle: {
+            fontSize: tokens.fontSizeMd + 0.5,
+            lineHeight: tokens.lineHeightMd,
+            fontWeight: tokens.fontWeightBold
+        },
+        subtitle: {
+            marginTop: 3,
+            fontSize: tokens.fontSizeSm + 1
+        },
+        rightTitleContainer: {
+            flex: 0,
+            alignItems: 'flex-end' as const,
+            justifyContent: 'center' as const
+        },
+        rightTitle: {
+            marginRight: 5,
+            fontSize: tokens.fontSizeMd
+        },
+        rightIconContainer: {
+            alignItems: 'flex-end' as const,
+            justifyContent: 'center' as const
+        }
+    };
+
     return (
         <Pressable
-            disabled={ !isPressable || disabled }
-            onPress={ onPress }
-            onLongPress={ onLongPress }
+            disabled={!isPressable || disabled}
+            onPress={onPress}
+            onLongPress={onLongPress}
             android_ripple={
                 Platform.OS === 'android' ? { color: colors.listItemBackgroundPress } : undefined
             }
-            accessibilityRole={ type === 'checkbox' ? 'checkbox' : isPressable ? 'button' : 'text' }
-            accessibilityState={ type === 'checkbox' ? { checked: !!checked, disabled } : { disabled } }
-            style={ ({ pressed }) => [
+            accessibilityRole={type === 'checkbox' ? 'checkbox' : isPressable ? 'button' : 'text'}
+            accessibilityState={type === 'checkbox' ? { checked: !!checked, disabled } : { disabled }}
+            style={({ pressed }) => [
                 styles.container,
                 spaced && styles.containerSpaced,
                 { backgroundColor: colors.listItemBackground },
                 containerStyle,
                 disabled && { opacity: 0.5 },
                 pressed && isPressable && !disabled && { backgroundColor: colors.listItemBackgroundPress }
-            ] }
+            ]}
         >
             <View
-                style={ [
+                style={[
                     styles.wrapper,
-                    // divider defaults
                     { borderBottomColor: colors.listItemBorder },
                     effectiveLastItem && { borderBottomWidth: 0 },
                     dividerStyle,
                     wrapperStyle
-                ] }
+                ]}
             >
-                { hasLeftCmp && (
+                {hasLeftCmp && (
                     <View
-                        style={ [
+                        style={[
                             styles.leftCmpWrapper,
                             leftCmpSize != null ? { width: leftCmpSize } : undefined,
                             leftCmpWrapperStyle,
-                            leftCmpStyle // kept: some callers used this to style the wrapper
-                        ] }
+                            leftCmpStyle
+                        ]}
                     >
-                        { leftCmp }
+                        {leftCmp}
                     </View>
-                ) }
+                )}
 
-                { hasImageSource && (
-                    <View style={ [styles.imageWrapper, { width: imageSize }, imageWrapperStyle] }>
+                {hasImageSource && (
+                    <View style={[styles.imageWrapper, { width: imageSize }, imageWrapperStyle]}>
                         <Image
-                            style={ [styles.listItemImage, { width: imageSize, height: imageSize }, imageStyle] }
-                            source={ imageSource as ImageSourcePropType }
+                            style={[styles.listItemImage, { width: imageSize, height: imageSize }, imageStyle]}
+                            source={imageSource as ImageSourcePropType}
                         />
                     </View>
-                ) }
+                )}
 
-                { hasImageSvg && (
-                    <View style={ [styles.imageWrapper, { width: imageSize }, imageWrapperStyle] }>
-                        { imageAsSvg }
+                {hasImageSvg && (
+                    <View style={[styles.imageWrapper, { width: imageSize }, imageWrapperStyle]}>
+                        {imageAsSvg}
                     </View>
-                ) }
+                )}
 
-                <View style={ [styles.titleContainer, titleContainerStyle] }>
-                    <View style={ [styles.titleRow, titleRowStyle] }>
+                <View style={[styles.titleContainer, titleContainerStyle]}>
+                    <View style={[styles.titleRow, titleRowStyle]}>
                         <Text
-                            numberOfLines={ titleNumberOfLines }
-                            style={ [
+                            numberOfLines={titleNumberOfLines}
+                            style={[
                                 styles.title,
                                 mediaStyle && styles.titleMediaStyle,
                                 { color: colors.text },
                                 titleStyle
-                            ] }
+                            ]}
                         >
-                            { title }
+                            {title}
                         </Text>
 
-                        { titleCmp && <View style={ styles.titleCmpContainer }>{ titleCmp }</View> }
+                        {titleCmp && <View>{titleCmp}</View>}
                     </View>
 
-                    { showSubtitle && (
+                    {showSubtitle && (
                         <Text
-                            numberOfLines={ subtitleNumberOfLines }
-                            style={ [styles.subtitle, { color: colors.textHint }, subtitleStyle] }
+                            numberOfLines={subtitleNumberOfLines}
+                            style={[styles.subtitle, { color: colors.textHint }, subtitleStyle]}
                         >
-                            { subtitle as string }
+                            {subtitle as string}
                         </Text>
-                    ) }
+                    )}
                 </View>
 
-                { hasRightTitle && (
-                    <View style={ [styles.rightTitleContainer, rightTitleContainerStyle] }>
+                {hasRightTitle && (
+                    <View style={[styles.rightTitleContainer, rightTitleContainerStyle]}>
                         <Text
-                            numberOfLines={ 1 }
-                            style={ [styles.rightTitle, { color: colors.textHint }, rightTitleStyle] }
+                            numberOfLines={1}
+                            style={[styles.rightTitle, { color: colors.textHint }, rightTitleStyle]}
                         >
-                            { rightTitle }
+                            {rightTitle}
                         </Text>
                     </View>
-                ) }
+                )}
 
-                { rightCmp && (
-                    <View style={ [styles.rightIconContainer, rightIconContainerStyle, rightCmpStyle] }>
-                        { rightCmp }
+                {rightCmp && (
+                    <View style={[styles.rightIconContainer, rightIconContainerStyle, rightCmpStyle]}>
+                        {rightCmp}
                     </View>
-                ) }
+                )}
 
-                { type === 'checkbox' && (
-                    <View style={ [styles.rightIconContainer, rightIconContainerStyle] } pointerEvents="none">
-                        { checked ? (
-                            <CheckboxChecked width={ checkboxSize } height={ checkboxSize } fill={ colors.primary } />
+                {type === 'checkbox' && (
+                    <View style={[styles.rightIconContainer, rightIconContainerStyle]} pointerEvents="none">
+                        {checked ? (
+                            <CheckboxChecked width={checkboxSize} height={checkboxSize} fill={colors.primary} />
                         ) : (
                             <CheckboxEmpty
-                                width={ checkboxSize }
-                                height={ checkboxSize }
-                                fill={ colors.checkboxDisabled }
+                                width={checkboxSize}
+                                height={checkboxSize}
+                                fill={colors.checkboxDisabled}
                             />
-                        ) }
+                        )}
                     </View>
-                ) }
+                )}
 
-                { !hideChevron && isPressable && (
-                    <View style={ [styles.rightIconContainer, rightIconContainerStyle] } pointerEvents="none">
-                        <ArrowRight width={ rightIconSize } height={ rightIconSize } fill={ rightIconColor } />
+                {!hideChevron && isPressable && (
+                    <View style={[styles.rightIconContainer, rightIconContainerStyle]} pointerEvents="none">
+                        <ArrowRight width={rightIconSize} height={rightIconSize} fill={rightIconColor} />
                     </View>
-                ) }
+                )}
 
-                { children }
+                {children}
             </View>
         </Pressable>
     );
 });
-
-const createStyles = () =>
-    StyleSheet.create({
-        container: {},
-        containerSpaced: {
-            borderRadius: isIOSVersionOrHigher(26) ? 14 : 10,
-            overflow: 'hidden'
-        },
-        leftCmpWrapper: {
-            marginRight: 15,
-            overflow: 'hidden'
-        },
-        imageWrapper: {
-            marginRight: 15,
-            overflow: 'hidden'
-        },
-        listItemImage: {
-            borderRadius: 5
-        },
-        wrapper: {
-            paddingTop: 12,
-            paddingRight: 10,
-            paddingBottom: 12,
-            backgroundColor: 'transparent',
-            flexDirection: 'row',
-            alignItems: 'center',
-            minHeight: isIOSVersionOrHigher(26) ? 52 : 48,
-            borderBottomWidth: StyleSheet.hairlineWidth,
-            ...Platform.select({
-                ios: { marginLeft: 18 },
-                android: { marginLeft: 20 }
-            })
-        },
-        titleRow: {
-            flexDirection: 'row',
-            alignItems: 'center'
-        },
-        titleContainer: {
-            flex: 1,
-            alignItems: 'flex-start'
-        },
-        title: {
-            fontSize: 16.5,
-            fontWeight: '400',
-            marginRight: 5
-        },
-        titleMediaStyle: {
-            fontSize: 16.5,
-            lineHeight: 22,
-            fontWeight: '700'
-        },
-        titleCmpContainer: {},
-        subtitle: {
-            marginTop: 3,
-            fontSize: 15
-        },
-        rightTitleContainer: {
-            flex: 0,
-            alignItems: 'flex-end',
-            justifyContent: 'center'
-        },
-        rightTitle: {
-            marginRight: 5,
-            fontSize: 16
-        },
-        rightIconContainer: {
-            alignItems: 'flex-end',
-            justifyContent: 'center'
-        }
-    });
 
 export { ListItem };

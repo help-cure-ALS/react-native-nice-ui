@@ -1,5 +1,6 @@
 import React, { memo, ReactNode } from 'react';
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import { StyleProp, View, ViewStyle } from 'react-native';
+import { useTheme } from '../theme';
 
 export type ListWrapperProps = {
     children?: ReactNode;
@@ -9,21 +10,22 @@ export type ListWrapperProps = {
 
 const ListWrapper = memo<ListWrapperProps>((props) => {
     const { children, rounded = false, containerStyle } = props;
+    const { tokens } = useTheme();
+
+    const styles = {
+        wrapper: {
+            paddingHorizontal: tokens.listItemMarginLeft
+        },
+        wrapperRounded: {
+            paddingHorizontal: tokens.listItemMarginLeft + tokens.listSectionPaddingHorizontal
+        }
+    };
 
     return (
         <View style={[styles.wrapper, rounded && styles.wrapperRounded, containerStyle]}>
             {children}
         </View>
     );
-});
-
-const styles = StyleSheet.create({
-    wrapper: {
-        paddingHorizontal: 18
-    },
-    wrapperRounded: {
-        paddingHorizontal: 34
-    }
 });
 
 export { ListWrapper };

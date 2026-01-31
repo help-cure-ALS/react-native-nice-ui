@@ -1,6 +1,5 @@
 import React, { memo, useMemo, ReactNode, createContext, useContext } from 'react';
 import {
-    Platform,
     StyleSheet,
     Text,
     View,
@@ -11,7 +10,6 @@ import {
 } from 'react-native';
 
 import { useTheme } from '../theme';
-import { isIOSVersionOrHigher } from '../platform';
 
 // Context for spaced list layout (card-style items)
 interface ListContextType {
@@ -28,7 +26,7 @@ export type ListProps = ViewProps & {
     borders?: boolean;
     /** Card-style layout with gap between items. Each item gets rounded corners automatically. */
     spaced?: boolean;
-    /** Gap size between items when spaced is true. Default: 10 */
+    /** Gap size between items when spaced is true. Uses tokens.listSpacedGap by default. */
     spacing?: number;
     title?: string;
     rightCmp?: ReactNode;
@@ -39,12 +37,14 @@ export type ListProps = ViewProps & {
 };
 
 const List = memo<ListProps>((props) => {
+    const { colors, tokens } = useTheme();
+
     const {
         children,
         rounded = false,
         borders = true,
         spaced = false,
-        spacing = 10,
+        spacing,
         containerStyle,
         title,
         titleStyle,
@@ -53,8 +53,8 @@ const List = memo<ListProps>((props) => {
         ...attributes
     } = props;
 
-    const { colors } = useTheme();
-    const styles = useMemo(() => createStyles(), []);
+    // Use provided spacing or default from tokens
+    const effectiveSpacing = spacing ?? tokens.listSpacedGap;
 
     // When spaced, disable borders (each item has its own)
     const effectiveBorders = spaced ? false : borders;
@@ -69,9 +69,41 @@ const List = memo<ListProps>((props) => {
             }
         : {};
 
-    const spacedStyle: ViewStyle = spaced ? { gap: spacing } : {};
+    const spacedStyle: ViewStyle = spaced ? { gap: effectiveSpacing } : {};
 
     const contextValue = useMemo(() => ({ spaced }), [spaced]);
+
+    // Dynamic styles using tokens
+    const styles = {
+        wrapper: {
+            marginTop: tokens.listSectionMarginTop
+        },
+        wrapperRounded: {
+            paddingHorizontal: tokens.listSectionPaddingHorizontal
+        },
+        containerRounded: {
+            borderRadius: tokens.listSectionRadius,
+            overflow: 'hidden' as const
+        },
+        titleWrapper: {
+            marginTop: 5,
+            paddingRight: tokens.listItemPaddingRight,
+            paddingBottom: tokens.listItemPaddingVertical,
+            flexDirection: 'row' as const,
+            paddingLeft: tokens.listItemMarginLeft
+        },
+        rightContainer: {
+            alignItems: 'flex-end' as const,
+            marginLeft: tokens.spacingMd,
+            minWidth: 24
+        },
+        title: {
+            flex: 1,
+            alignSelf: 'center' as const,
+            fontSize: tokens.fontSizeLg,
+            fontWeight: tokens.fontWeightMedium
+        }
+    };
 
     return (
         <ListContext.Provider value={contextValue}>
@@ -102,37 +134,5 @@ const List = memo<ListProps>((props) => {
         </ListContext.Provider>
     );
 });
-
-const createStyles = () =>
-    StyleSheet.create({
-        wrapper: {
-            marginTop: 30
-        },
-        wrapperRounded: {
-            paddingHorizontal: 13
-        },
-        containerRounded: {
-            borderRadius: isIOSVersionOrHigher(26) ? 16 : 10,
-            overflow: 'hidden'
-        },
-        titleWrapper: {
-            marginTop: 5,
-            paddingRight: 10,
-            paddingBottom: 12,
-            flexDirection: 'row',
-            paddingLeft: Platform.OS === 'ios' ? 18 : 20
-        },
-        rightContainer: {
-            alignItems: 'flex-end',
-            marginLeft: 10,
-            minWidth: 24
-        },
-        title: {
-            flex: 1,
-            alignSelf: 'center',
-            fontSize: 17,
-            fontWeight: '500'
-        }
-    });
 
 export { List };
