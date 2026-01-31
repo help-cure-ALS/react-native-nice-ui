@@ -159,7 +159,7 @@ const ListInputItemComponent = forwardRef<ListInputItemRef, ListInputItemProps>(
             flex: 1,
             fontSize: tokens.fontSizeMd + 0.5,
             fontWeight: tokens.fontWeightNormal,
-            color: colors.text,
+            color: colors.textPrimary,
             padding: 0,
             margin: 0,
             minHeight: 28,
@@ -204,7 +204,7 @@ const ListInputItemComponent = forwardRef<ListInputItemRef, ListInputItemProps>(
                         style={[
                             styles.label,
                             inline && styles.labelInline,
-                            { color: inline ? colors.text : colors.textHint },
+                            { color: inline ? colors.textPrimary : colors.textHint },
                             isFocused && styles.labelFocused,
                             labelStyle
                         ]}
@@ -243,7 +243,7 @@ const ListInputItemComponent = forwardRef<ListInputItemRef, ListInputItemProps>(
                                 <Eye
                                     width={passwordToggleSize}
                                     height={passwordToggleSize}
-                                    fill={colors.text}
+                                    fill={colors.textPrimary}
                                 />
                             ) : (
                                 <EyeOff

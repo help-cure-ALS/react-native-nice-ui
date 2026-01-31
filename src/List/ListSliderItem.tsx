@@ -211,7 +211,7 @@ export const ListSliderItem = memo<ListSliderItemProps>((props) => {
                         <Text
                             style={[
                                 styles.value,
-                                { color: colors.text },
+                                { color: colors.textPrimary },
                                 valueStyle
                             ]}
                         >

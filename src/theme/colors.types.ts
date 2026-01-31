@@ -4,10 +4,10 @@ export interface UIColors {
     tint: string;
 
     background: string;
-    card: string;
 
-    text: string;
+    textPrimary: string;
     textSecondary: string;
+    textTertiary: string;
     textHint: string;
 
     border: string;

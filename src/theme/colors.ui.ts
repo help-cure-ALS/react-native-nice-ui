@@ -7,10 +7,10 @@ export const lightUIColors: UIColors = {
     tint: '#007AFF',
 
     background: '#f5f5f5',
-    card: '#ffffff',
 
-    text: '#000000',
-    textSecondary: 'rgba(0,0,0,0.6)',
+    textPrimary: '#000000',
+    textSecondary: 'rgba(0,0,0,0.7)',
+    textTertiary: 'rgba(0,0,0,0.45)',
     textHint: 'rgba(0,0,0,0.38)',
 
     border: 'rgb(216, 216, 216)',
@@ -34,11 +34,11 @@ export const darkUIColors: UIColors = {
     statusBar: 'rgb(18, 18, 18)',
     tint: '#0099ff',
 
-    background: '#000',
-    card: '#1a1a1a',
+    background: '#1C1C1E',
 
-    text: '#ffffff',
+    textPrimary: '#ffffff',
     textSecondary: 'rgba(255,255,255,0.7)',
+    textTertiary: 'rgba(255,255,255,0.5)',
     textHint: 'rgba(255,255,255,0.4)',
 
     border: 'rgb(39, 39, 41)',

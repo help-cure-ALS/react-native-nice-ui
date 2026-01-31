@@ -292,7 +292,7 @@ const ListItem = memo<ListItemProps>((props) => {
                             style={[
                                 styles.title,
                                 mediaStyle && styles.titleMediaStyle,
-                                { color: colors.text },
+                                { color: colors.textPrimary },
                                 titleStyle
                             ]}
                         >

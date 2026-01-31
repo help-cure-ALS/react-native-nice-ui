@@ -112,10 +112,10 @@ const Button = memo<ButtonProps>((props) => {
             case 'secondary':
                 return {
                     container: {
-                        backgroundColor: colors.card,
+                        backgroundColor: colors.listItemBackground,
                         opacity: pressedOpacity
                     },
-                    text: { color: colors.text }
+                    text: { color: colors.textPrimary }
                 };
             case 'outline':
                 return {
