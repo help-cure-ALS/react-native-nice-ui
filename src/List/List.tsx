@@ -1,4 +1,4 @@
-import React, { memo, useMemo, ReactNode, createContext, useContext } from 'react';
+import React, { memo, useMemo, ReactNode, createContext, useContext, Children, isValidElement, cloneElement } from 'react';
 import {
     StyleSheet,
     Text,
@@ -73,6 +73,19 @@ const List = memo<ListProps>((props) => {
 
     const contextValue = useMemo(() => ({ spaced }), [spaced]);
 
+    // Automatically set lastItem on the last valid child
+    const childArray = Children.toArray(children).filter(isValidElement);
+    const lastIndex = childArray.length - 1;
+
+    const enhancedChildren = childArray.map((child, index) => {
+        if (isValidElement(child)) {
+            return cloneElement(child as React.ReactElement<{ lastItem?: boolean }>, {
+                lastItem: index === lastIndex
+            });
+        }
+        return child;
+    });
+
     // Dynamic styles using tokens
     const styles = {
         wrapper: {
@@ -128,7 +141,7 @@ const List = memo<ListProps>((props) => {
                         containerStyle
                     ]}
                 >
-                    {children}
+                    {enhancedChildren}
                 </View>
             </View>
         </ListContext.Provider>
