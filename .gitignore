@@ -49,3 +49,11 @@ ios/
 # ------------------------------
 .env
 .env.*
+
+# ------------------------------
+# Example App
+# ------------------------------
+example/node_modules/
+example/.expo/
+example/android/
+example/ios/

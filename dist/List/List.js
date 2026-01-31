@@ -1,12 +1,16 @@
-import React, { memo, useMemo } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import React, { memo, useMemo, createContext, useContext, Children, isValidElement, cloneElement } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import { useTheme } from '../theme';
-import { isIOSVersionOrHigher } from '../platform';
+const ListContext = createContext({ spaced: false });
+export const useListContext = () => useContext(ListContext);
 const List = memo((props) => {
-    const { children, rounded = false, borders = true, containerStyle, title, titleStyle, rightCmp, style, ...attributes } = props;
-    const { colors } = useTheme();
-    const styles = useMemo(() => createStyles(), []);
-    const containerBorders = borders
+    const { colors, tokens } = useTheme();
+    const { children, rounded = false, borders = true, spaced = false, spacing, containerStyle, title, titleStyle, rightCmp, style, ...attributes } = props;
+    // Use provided spacing or default from tokens
+    const effectiveSpacing = spacing !== null && spacing !== void 0 ? spacing : tokens.listSpacedGap;
+    // When spaced, disable borders (each item has its own)
+    const effectiveBorders = spaced ? false : borders;
+    const containerBorders = effectiveBorders
         ? rounded
             ? { borderWidth: StyleSheet.hairlineWidth, borderColor: colors.border }
             : {
@@ -15,51 +19,68 @@ const List = memo((props) => {
                 borderColor: colors.border
             }
         : {};
-    return (<View style={[styles.wrapper, rounded && styles.wrapperRounded, style]}>
-            {(title || rightCmp) && (<View style={styles.titleWrapper}>
-                    {!!title && (<Text style={[styles.title, { color: colors.textHint }, titleStyle]} numberOfLines={1}>
-                            {title}
-                        </Text>)}
-                    {!!rightCmp && <View style={styles.rightContainer}>{rightCmp}</View>}
-                </View>)}
+    const spacedStyle = spaced ? { gap: effectiveSpacing } : {};
+    const contextValue = useMemo(() => ({ spaced }), [spaced]);
+    // Automatically set lastItem on the last valid child
+    const childArray = Children.toArray(children).filter(isValidElement);
+    const lastIndex = childArray.length - 1;
+    const enhancedChildren = childArray.map((child, index) => {
+        if (isValidElement(child)) {
+            return cloneElement(child, {
+                lastItem: index === lastIndex
+            });
+        }
+        return child;
+    });
+    // Dynamic styles using tokens
+    const styles = {
+        wrapper: {
+            marginTop: tokens.listSectionMarginTop
+        },
+        wrapperRounded: {
+            paddingHorizontal: tokens.listSectionPaddingHorizontal
+        },
+        containerRounded: {
+            borderRadius: tokens.listSectionRadius,
+            overflow: 'hidden'
+        },
+        titleWrapper: {
+            marginTop: 5,
+            paddingRight: tokens.listItemPaddingRight,
+            paddingBottom: tokens.listItemPaddingVertical,
+            flexDirection: 'row',
+            paddingLeft: tokens.listItemMarginLeft
+        },
+        rightContainer: {
+            alignItems: 'flex-end',
+            marginLeft: tokens.spacingMd,
+            minWidth: 24
+        },
+        title: {
+            flex: 1,
+            alignSelf: 'center',
+            fontSize: tokens.fontSizeLg,
+            fontWeight: tokens.fontWeightMedium
+        }
+    };
+    return (<ListContext.Provider value={contextValue}>
+            <View style={[styles.wrapper, (rounded || spaced) && styles.wrapperRounded, style]}>
+                {(title || rightCmp) && (<View style={styles.titleWrapper}>
+                        {!!title && (<Text style={[styles.title, { color: colors.textTertiary }, titleStyle]} numberOfLines={1}>
+                                {title}
+                            </Text>)}
+                        {!!rightCmp && <View style={styles.rightContainer}>{rightCmp}</View>}
+                    </View>)}
 
-            <View {...attributes} style={[
+                <View {...attributes} style={[
             rounded && styles.containerRounded,
             containerBorders,
+            spacedStyle,
             containerStyle
         ]}>
-                {children}
+                    {enhancedChildren}
+                </View>
             </View>
-        </View>);
-});
-const createStyles = () => StyleSheet.create({
-    wrapper: {
-        marginTop: 30
-    },
-    wrapperRounded: {
-        paddingHorizontal: 13
-    },
-    containerRounded: {
-        borderRadius: isIOSVersionOrHigher(26) ? 16 : 10,
-        overflow: 'hidden'
-    },
-    titleWrapper: {
-        marginTop: 5,
-        paddingRight: 10,
-        paddingBottom: 12,
-        flexDirection: 'row',
-        paddingLeft: Platform.OS === 'ios' ? 18 : 20
-    },
-    rightContainer: {
-        alignItems: 'flex-end',
-        marginLeft: 10,
-        minWidth: 24
-    },
-    title: {
-        flex: 1,
-        alignSelf: 'center',
-        fontSize: 17,
-        fontWeight: '500'
-    }
+        </ListContext.Provider>);
 });
 export { List };

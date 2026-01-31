@@ -1,11 +1,18 @@
 import { List as BaseList } from './List';
 import { ListItem } from './ListItem';
+import { ListInputItem } from './ListInputItem';
+import { ListSliderItem } from './ListSliderItem';
 import { ListText } from './ListText';
 import { ListWrapper } from './ListWrapper';
 import { ListSection } from './ListSection';
+import { ListSectionCard } from './ListSectionCard';
 const List = BaseList;
 List.Item = ListItem;
+List.InputItem = ListInputItem;
+List.SliderItem = ListSliderItem;
 List.Text = ListText;
 List.Wrapper = ListWrapper;
 List.Section = ListSection;
+List.SectionCard = ListSectionCard;
 export { List };
+export { SliderAvailable } from './ListSliderItem';

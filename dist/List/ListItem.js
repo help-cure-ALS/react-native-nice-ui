@@ -1,11 +1,11 @@
-import React, { memo, useMemo } from 'react';
+import React, { memo } from 'react';
 import { Image, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { ArrowRight, CheckboxEmpty, CheckboxChecked } from '../assets/icons';
 import { useTheme } from '../theme';
-import { isIOSVersionOrHigher } from '../platform';
+import { useListContext } from './List';
 const ListItem = memo((props) => {
-    const { colors } = useTheme();
-    const styles = useMemo(() => createStyles(), []);
+    const { colors, tokens } = useTheme();
+    const { spaced } = useListContext();
     const { 
     // text / containers
     title = '', subtitle = null, rightTitle = '', titleStyle, titleContainerStyle, rightTitleStyle, rightTitleContainerStyle, subtitleStyle, wrapperStyle, containerStyle, 
@@ -16,19 +16,89 @@ const ListItem = memo((props) => {
     // row internals
     titleRowStyle, rightIconContainerStyle, dividerStyle, 
     // affordances
-    type = null, checked = null, checkboxSize = 28, hideChevron = false, rightIconSize = 20, rightIconColor = colors.listItemIcon, 
+    type = null, checked = null, checkboxSize = 28, hideChevron: hideChevronProp, rightIconSize = 20, rightIconColor = colors.listItemIcon, 
     // behavior
     disabled = false, lastItem = false, onPress, onLongPress, 
     // children
     children } = props;
+    // For checkbox type, hideChevron defaults to true but can be overridden with hideChevron={false}
+    const hideChevron = hideChevronProp !== null && hideChevronProp !== void 0 ? hideChevronProp : (type === 'checkbox');
+    // In spaced mode, each item is a separate card (no dividers)
+    const effectiveLastItem = spaced || lastItem;
     const hasLeftCmp = !!leftCmp;
     const hasImageSource = !!imageSource;
     const hasImageSvg = !!imageAsSvg;
     const hasRightTitle = rightTitle !== '';
     const isPressable = !!(onPress || onLongPress);
     const showSubtitle = subtitle !== null && subtitle !== '';
+    // Dynamic styles using tokens
+    const styles = {
+        container: {},
+        containerSpaced: {
+            borderRadius: tokens.listItemRadius,
+            overflow: 'hidden'
+        },
+        leftCmpWrapper: {
+            marginRight: tokens.spacingLg,
+            overflow: 'hidden'
+        },
+        imageWrapper: {
+            marginRight: tokens.spacingLg,
+            overflow: 'hidden'
+        },
+        listItemImage: {
+            borderRadius: tokens.radiusSm
+        },
+        wrapper: {
+            paddingTop: tokens.listItemPaddingVertical,
+            paddingRight: tokens.listItemPaddingRight,
+            paddingBottom: tokens.listItemPaddingVertical,
+            backgroundColor: 'transparent',
+            flexDirection: 'row',
+            alignItems: 'center',
+            minHeight: tokens.listItemMinHeight,
+            borderBottomWidth: StyleSheet.hairlineWidth,
+            marginLeft: tokens.listItemMarginLeft
+        },
+        titleRow: {
+            flexDirection: 'row',
+            alignItems: 'center'
+        },
+        titleContainer: {
+            flex: 1,
+            alignItems: 'flex-start'
+        },
+        title: {
+            fontSize: tokens.fontSizeMd + 0.5,
+            fontWeight: tokens.fontWeightNormal,
+            marginRight: 5
+        },
+        titleMediaStyle: {
+            fontSize: tokens.fontSizeMd + 0.5,
+            lineHeight: tokens.lineHeightMd,
+            fontWeight: tokens.fontWeightBold
+        },
+        subtitle: {
+            marginTop: 3,
+            fontSize: tokens.fontSizeSm + 1
+        },
+        rightTitleContainer: {
+            flex: 0,
+            alignItems: 'flex-end',
+            justifyContent: 'center'
+        },
+        rightTitle: {
+            marginRight: 5,
+            fontSize: tokens.fontSizeMd
+        },
+        rightIconContainer: {
+            alignItems: 'flex-end',
+            justifyContent: 'center'
+        }
+    };
     return (<Pressable disabled={!isPressable || disabled} onPress={onPress} onLongPress={onLongPress} android_ripple={Platform.OS === 'android' ? { color: colors.listItemBackgroundPress } : undefined} accessibilityRole={type === 'checkbox' ? 'checkbox' : isPressable ? 'button' : 'text'} accessibilityState={type === 'checkbox' ? { checked: !!checked, disabled } : { disabled }} style={({ pressed }) => [
             styles.container,
+            spaced && styles.containerSpaced,
             { backgroundColor: colors.listItemBackground },
             containerStyle,
             disabled && { opacity: 0.5 },
@@ -36,9 +106,8 @@ const ListItem = memo((props) => {
         ]}>
             <View style={[
             styles.wrapper,
-            // divider defaults
             { borderBottomColor: colors.listItemBorder },
-            lastItem && { borderBottomWidth: 0 },
+            effectiveLastItem && { borderBottomWidth: 0 },
             dividerStyle,
             wrapperStyle
         ]}>
@@ -46,7 +115,7 @@ const ListItem = memo((props) => {
                 styles.leftCmpWrapper,
                 leftCmpSize != null ? { width: leftCmpSize } : undefined,
                 leftCmpWrapperStyle,
-                leftCmpStyle // kept: some callers used this to style the wrapper
+                leftCmpStyle
             ]}>
                         {leftCmp}
                     </View>)}
@@ -64,22 +133,22 @@ const ListItem = memo((props) => {
                         <Text numberOfLines={titleNumberOfLines} style={[
             styles.title,
             mediaStyle && styles.titleMediaStyle,
-            { color: colors.text },
+            { color: colors.textPrimary },
             titleStyle
         ]}>
                             {title}
                         </Text>
 
-                        {titleCmp && <View style={styles.titleCmpContainer}>{titleCmp}</View>}
+                        {titleCmp && <View>{titleCmp}</View>}
                     </View>
 
-                    {showSubtitle && (<Text numberOfLines={subtitleNumberOfLines} style={[styles.subtitle, { color: colors.textHint }, subtitleStyle]}>
+                    {showSubtitle && (<Text numberOfLines={subtitleNumberOfLines} style={[styles.subtitle, { color: colors.textTertiary }, subtitleStyle]}>
                             {subtitle}
                         </Text>)}
                 </View>
 
                 {hasRightTitle && (<View style={[styles.rightTitleContainer, rightTitleContainerStyle]}>
-                        <Text numberOfLines={1} style={[styles.rightTitle, { color: colors.textHint }, rightTitleStyle]}>
+                        <Text numberOfLines={1} style={[styles.rightTitle, { color: colors.textTertiary }, rightTitleStyle]}>
                             {rightTitle}
                         </Text>
                     </View>)}
@@ -99,69 +168,5 @@ const ListItem = memo((props) => {
                 {children}
             </View>
         </Pressable>);
-});
-const createStyles = () => StyleSheet.create({
-    container: {},
-    leftCmpWrapper: {
-        marginRight: 15,
-        overflow: 'hidden'
-    },
-    imageWrapper: {
-        marginRight: 15,
-        overflow: 'hidden'
-    },
-    listItemImage: {
-        borderRadius: 5
-    },
-    wrapper: {
-        paddingTop: 12,
-        paddingRight: 10,
-        paddingBottom: 12,
-        backgroundColor: 'transparent',
-        flexDirection: 'row',
-        alignItems: 'center',
-        minHeight: isIOSVersionOrHigher(26) ? 52 : 48,
-        borderBottomWidth: StyleSheet.hairlineWidth,
-        ...Platform.select({
-            ios: { marginLeft: 18 },
-            android: { marginLeft: 20 }
-        })
-    },
-    titleRow: {
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    titleContainer: {
-        flex: 1,
-        alignItems: 'flex-start'
-    },
-    title: {
-        fontSize: 16.5,
-        fontWeight: '400',
-        marginRight: 5
-    },
-    titleMediaStyle: {
-        fontSize: 16.5,
-        lineHeight: 22,
-        fontWeight: '700'
-    },
-    titleCmpContainer: {},
-    subtitle: {
-        marginTop: 3,
-        fontSize: 15
-    },
-    rightTitleContainer: {
-        flex: 0,
-        alignItems: 'flex-end',
-        justifyContent: 'center'
-    },
-    rightTitle: {
-        marginRight: 5,
-        fontSize: 16
-    },
-    rightIconContainer: {
-        alignItems: 'flex-end',
-        justifyContent: 'center'
-    }
 });
 export { ListItem };

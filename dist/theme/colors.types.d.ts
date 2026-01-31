@@ -3,12 +3,12 @@ export interface UIColors {
     statusBarStyle: 'light-content' | 'dark-content';
     tint: string;
     background: string;
-    card: string;
-    text: string;
+    textPrimary: string;
+    textSecondary: string;
+    textTertiary: string;
     textHint: string;
     border: string;
     primary: string;
-    listText: string;
     listItemIcon: string;
     listItemBackground: string;
     listItemBackgroundPress: string;
