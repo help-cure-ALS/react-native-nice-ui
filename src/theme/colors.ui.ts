@@ -10,6 +10,7 @@ export const lightUIColors: UIColors = {
     card: '#ffffff',
 
     text: '#000000',
+    textSecondary: 'rgba(0,0,0,0.6)',
     textHint: 'rgba(0,0,0,0.38)',
 
     border: 'rgb(216, 216, 216)',
@@ -37,6 +38,7 @@ export const darkUIColors: UIColors = {
     card: '#1a1a1a',
 
     text: '#ffffff',
+    textSecondary: 'rgba(255,255,255,0.7)',
     textHint: 'rgba(255,255,255,0.4)',
 
     border: 'rgb(39, 39, 41)',

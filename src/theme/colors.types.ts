@@ -7,6 +7,7 @@ export interface UIColors {
     card: string;
 
     text: string;
+    textSecondary: string;
     textHint: string;
 
     border: string;

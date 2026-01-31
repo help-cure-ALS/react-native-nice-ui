@@ -33,7 +33,7 @@ export const defaultTokens: UITokens = {
     // Border Radius
     radiusNone: 0,
     radiusSm: 6,
-    radiusMd: 10,
+    radiusMd: isIOSVersionOrHigher(26) ? 12 : 10,
     radiusLg: isIOSVersionOrHigher(26) ? 14 : 10,
     radiusXl: isIOSVersionOrHigher(26) ? 16 : 12,
     radiusFull: 9999,
