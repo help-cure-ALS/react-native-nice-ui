@@ -63,7 +63,7 @@ export const ListSectionCard = memo<ListSectionCardProps>(({
 
     const styles = {
         outer: {
-            marginHorizontal: tokens.spacingLg,
+            marginHorizontal: tokens.listSectionPaddingHorizontal,
             marginVertical: tokens.spacingSm
         },
         container: {
