@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ScrollView, StyleSheet, View, Alert } from 'react-native';
 import {
     List,
+    Text,
     useTheme,
     ArrowRight,
     Info,
@@ -53,67 +54,67 @@ export default function ListDemoScreen() {
 
             {/* Checkbox Items */ }
             <List.Section title="Checkbox Items">
-                    <List.Item
-                        title="Option 1"
-                        subtitle="Unchecked by default"
-                        type="checkbox"
-                        checked={ checkboxStates.option1 }
-                        onPress={ () => toggleCheckbox('option1') }
-                    />
-                    <List.Item
-                        title="Option 2"
-                        subtitle="Checked by default"
-                        type="checkbox"
-                        hideChevron={false}
-                        checked={ checkboxStates.option2 }
-                        onPress={ () => toggleCheckbox('option2') }
-                    />
-                    <List.Item
-                        title="Option 3"
-                        type="checkbox"
-                        checked={ checkboxStates.option3 }
-                        onPress={ () => toggleCheckbox('option3') }
-                        />
+                <List.Item
+                    title="Option 1"
+                    subtitle="Unchecked by default"
+                    type="checkbox"
+                    checked={ checkboxStates.option1 }
+                    onPress={ () => toggleCheckbox('option1') }
+                />
+                <List.Item
+                    title="Option 2"
+                    subtitle="Checked by default"
+                    type="checkbox"
+                    hideChevron={ false }
+                    checked={ checkboxStates.option2 }
+                    onPress={ () => toggleCheckbox('option2') }
+                />
+                <List.Item
+                    title="Option 3"
+                    type="checkbox"
+                    checked={ checkboxStates.option3 }
+                    onPress={ () => toggleCheckbox('option3') }
+                />
             </List.Section>
 
             {/* Items with Icons */ }
             <List.Section title="With Custom Components">
-                                    <List.Item
-                        title="Left Icon"
-                        leftCmp={ <Info width={ 24 } height={ 24 } fill={ colors.primary } /> }
-                        onPress={ () => {
-                        } }
-                    />
-                    <List.Item
-                        title="Right Component"
-                        rightCmp={ <Check width={ 20 } height={ 20 } fill={ colors.primary } /> }
-                        hideChevron
-                    />
-                    <List.Item
-                        title="Custom Right Icon"
-                        rightIconColor={ colors.primary }
-                        onPress={ () => {
-                        } }
-                        />
+                <List.Item
+                    title="Left Icon"
+                    leftCmp={ <Info width={ 24 } height={ 24 } fill={ colors.primary } /> }
+                    onPress={ () => {
+                    } }
+                />
+                <List.Item
+                    title="Right Component"
+                    rightCmp={ <Check width={ 20 } height={ 20 } fill={ colors.primary } /> }
+                    hideChevron
+                />
+                <List.Item
+                    title="Custom Right Icon"
+                    rightIconColor={ colors.primary }
+                    onPress={ () => {
+                    } }
+                />
 
             </List.Section>
 
             {/* Disabled Items */ }
             <List.Section title="Disabled Items">
 
-                    <List.Item
-                        title="Disabled Item"
-                        subtitle="This item is disabled"
-                        disabled
-                        onPress={ () => {
-                        } }
-                    />
-                    <List.Item
-                        title="Disabled Checkbox"
-                        type="checkbox"
-                        checked={ true }
-                        disabled
-                        />
+                <List.Item
+                    title="Disabled Item"
+                    subtitle="This item is disabled"
+                    disabled
+                    onPress={ () => {
+                    } }
+                />
+                <List.Item
+                    title="Disabled Checkbox"
+                    type="checkbox"
+                    checked={ true }
+                    disabled
+                />
 
             </List.Section>
 
@@ -126,8 +127,8 @@ export default function ListDemoScreen() {
             <List.Section title="Wrapped List">
                 <List.Wrapper>
 
-                        <List.Item title="Inside Wrapper" subtitle="List.Wrapper adds padding and styling" />
-                        <List.Item title="Another Item" />
+                    <List.Item title="Inside Wrapper" subtitle="List.Wrapper adds padding and styling" />
+                    <List.Item title="Another Item" />
 
                 </List.Wrapper>
             </List.Section>
@@ -135,16 +136,39 @@ export default function ListDemoScreen() {
             {/* Long Content */ }
             <List.Section title="Long Content">
 
-                    <List.Item
-                        title="Very long title that should be truncated when it exceeds the available width"
-                        titleNumberOfLines={ 3 }
-                    />
-                    <List.Item
-                        title="Multi-line Subtitle"
-                        subtitle="This is a very long subtitle that spans multiple lines. It demonstrates how the component handles longer text content gracefully."
-                        subtitleNumberOfLines={ 3 }
-                        />
+                <List.Item
+                    title={"Very long title that should be truncated when it exceeds the available width. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. At vero eos et accusam et justo duo dolores et ea rebum. \n\nStet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."}
+                    titleNumberOfLines={ 15 }
+                />
+                <List.Item
+                    title="Multi-line Subtitle"
+                    subtitle="This is a very long subtitle that spans multiple lines. It demonstrates how the component handles longer text content gracefully."
+                    subtitleNumberOfLines={ 3 }
+                />
 
+            </List.Section>
+
+            {/* Formatted Text (ReactNode) */}
+            <List.Section title="Formatted Text" rounded>
+                <List.Item
+                    title={
+                        <Text>
+                            Normal und <Text style={{ fontWeight: '700' }}>Bold</Text> gemischt
+                        </Text>
+                    }
+                />
+                <List.Item
+                    title="Mit formatiertem Subtitle"
+                    subtitle={
+                        <Text color="tertiary">
+                            Status: <Text style={{ fontWeight: '600', color: colors.primary }}>Aktiv</Text>
+                        </Text>
+                    }
+                />
+                <List.Item
+                    title={<Text>Zeile 1{'\n'}Zeile 2</Text>}
+                    subtitle={<Text color="tertiary">Auch im Subtitle{'\n'}funktionieren Zeilenumbrüche</Text>}
+                />
             </List.Section>
 
             {/* Spaced Card Layout */ }
@@ -168,7 +192,7 @@ export default function ListDemoScreen() {
                 />
             </List.Section>
 
-            {/* SectionCard - Card with Header/Title/Body */}
+            {/* SectionCard - Card with Header/Title/Body */ }
             <List.SectionCard
                 header="Question 1 of 7"
                 title="What is your favorite color?"
@@ -177,70 +201,70 @@ export default function ListDemoScreen() {
                 <List.Item
                     title="Red"
                     type="checkbox"
-                    checked={checkboxStates.option1}
+                    checked={ checkboxStates.option1 }
                     checkboxSize={ 24 }
                     wrapperStyle={ {
                         paddingTop: 10,
                         paddingBottom: 10,
                         minHeight: 33
                     } }
-                    onPress={() => toggleCheckbox('option1')}
+                    onPress={ () => toggleCheckbox('option1') }
                 />
                 <List.Item
                     title="Green"
                     type="checkbox"
-                    checked={checkboxStates.option2}
+                    checked={ checkboxStates.option2 }
                     checkboxSize={ 24 }
                     wrapperStyle={ {
                         paddingTop: 10,
                         paddingBottom: 10,
                         minHeight: 33
                     } }
-                    onPress={() => toggleCheckbox('option2')}
+                    onPress={ () => toggleCheckbox('option2') }
                 />
                 <List.Item
                     title="Blue"
                     type="checkbox"
-                    checked={checkboxStates.option3}
+                    checked={ checkboxStates.option3 }
                     checkboxSize={ 24 }
                     wrapperStyle={ {
                         paddingTop: 10,
                         paddingBottom: 10,
                         minHeight: 33
                     } }
-                    onPress={() => toggleCheckbox('option3')}
+                    onPress={ () => toggleCheckbox('option3') }
                 />
             </List.SectionCard>
 
-            {/* SectionCard - Title Only */}
+            {/* SectionCard - Title Only */ }
             <List.SectionCard title="Settings">
                 <List.Item
                     title="Notifications"
                     subtitle="Enable push notifications"
-                    onPress={() => Alert.alert('Notifications')}
+                    onPress={ () => Alert.alert('Notifications') }
                 />
                 <List.Item
                     title="Privacy"
                     subtitle="Manage your privacy settings"
-                    onPress={() => Alert.alert('Privacy')}
+                    onPress={ () => Alert.alert('Privacy') }
                 />
             </List.SectionCard>
 
-            {/* Input Items */}
+            {/* Input Items */ }
             <List.Section title="Input Items" rounded>
                 <List.InputItem
                     label="Name"
                     placeholder="Enter your name"
-                    value={formData.name}
-                    onChangeText={(text) => setFormData(prev => ({ ...prev, name: text }))}
+                    value={ formData.name }
+                    onChangeText={ (text) => setFormData(prev => ({ ...prev, name: text })) }
                     autoCapitalize="words"
                 />
                 <List.InputItem
                     label="Email"
                     required
                     placeholder="Enter your email"
-                    value={formData.email}
-                    onChangeText={(text) => setFormData(prev => ({ ...prev, email: text }))}
+                    value={ formData.email }
+                    onChangeText={ (text) => setFormData(prev => ({ ...prev, email: text })) }
                     keyboardType="email-address"
                     autoCapitalize="none"
                 />
@@ -248,14 +272,14 @@ export default function ListDemoScreen() {
                     label="Password"
                     required
                     placeholder="Enter your password"
-                    value={formData.password}
-                    onChangeText={(text) => setFormData(prev => ({ ...prev, password: text }))}
+                    value={ formData.password }
+                    onChangeText={ (text) => setFormData(prev => ({ ...prev, password: text })) }
                     secureTextEntry
                     showPasswordToggle
                 />
             </List.Section>
 
-            {/* Input Items in SectionCard */}
+            {/* Input Items in SectionCard */ }
             <List.SectionCard
                 header="Step 2 of 3"
                 title="Account Details"
@@ -274,7 +298,7 @@ export default function ListDemoScreen() {
                 />
             </List.SectionCard>
 
-            {/* Inline Input Items (like List.Item with rightTitle) */}
+            {/* Inline Input Items (like List.Item with rightTitle) */ }
             <List.Section title="Inline Input Items" rounded>
                 <List.InputItem
                     label="First Name"
@@ -294,7 +318,7 @@ export default function ListDemoScreen() {
                 />
             </List.Section>
 
-            {/* Input Items with Right Label (Units) */}
+            {/* Input Items with Right Label (Units) */ }
             <List.Section title="Input with Right Label" rounded>
                 <List.InputItem
                     label="Gewicht"
@@ -317,49 +341,49 @@ export default function ListDemoScreen() {
                 />
             </List.Section>
 
-            {/* Slider Items */}
+            {/* Slider Items */ }
             <List.Section title="Slider Items" rounded>
                 <List.SliderItem
                     label="Volume"
-                    value={0.5}
+                    value={ 0.5 }
                     valueSuffix="%"
-                    toFixed={0}
-                    minimumValue={0}
-                    maximumValue={100}
+                    toFixed={ 0 }
+                    minimumValue={ 0 }
+                    maximumValue={ 100 }
                 />
                 <List.SliderItem
                     label="Brightness"
-                    value={75}
+                    value={ 75 }
                     valueSuffix="%"
-                    toFixed={0}
-                    minimumValue={0}
-                    maximumValue={100}
+                    toFixed={ 0 }
+                    minimumValue={ 0 }
+                    maximumValue={ 100 }
                 />
                 <List.SliderItem
                     label="Weight"
-                    value={70}
+                    value={ 70 }
                     valueSuffix=" kg"
-                    toFixed={1}
-                    minimumValue={30}
-                    maximumValue={150}
-                    step={0.5}
+                    toFixed={ 1 }
+                    minimumValue={ 30 }
+                    maximumValue={ 150 }
+                    step={ 0.5 }
                 />
             </List.Section>
 
-            {/* Slider with Prefix */}
+            {/* Slider with Prefix */ }
             <List.Section title="Slider with Prefix">
                 <List.SliderItem
                     label="Price Range"
-                    value={50}
+                    value={ 50 }
                     valuePrefix="$"
-                    toFixed={0}
-                    minimumValue={0}
-                    maximumValue={500}
-                    step={10}
+                    toFixed={ 0 }
+                    minimumValue={ 0 }
+                    maximumValue={ 500 }
+                    step={ 10 }
                 />
             </List.Section>
 
-            {/* Disabled Input */}
+            {/* Disabled Input */ }
             <List.Section title="Disabled Input">
                 <List.InputItem
                     label="Read-only Field"
