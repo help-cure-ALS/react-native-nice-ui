@@ -19,6 +19,8 @@ import { useListContext } from './List';
 export interface ListInputItemProps extends Omit<TextInputProps, 'style'> {
     /** Label text above the input (or left side when inline) */
     label?: string;
+    /** Label text right of the input (e.g. unit "kg", "€") */
+    rightLabel?: string;
     /** Show asterisk after label */
     required?: boolean;
     /** Horizontal layout: label left, input right (like List.Item with rightTitle) */
@@ -33,6 +35,8 @@ export interface ListInputItemProps extends Omit<TextInputProps, 'style'> {
     lastItem?: boolean;
     /** Label text style */
     labelStyle?: StyleProp<TextStyle>;
+    /** Right label text style */
+    rightLabelStyle?: StyleProp<TextStyle>;
     /** Input text style */
     inputStyle?: StyleProp<TextStyle>;
     /** Outer container style */
@@ -58,6 +62,7 @@ const ListInputItemComponent = forwardRef<ListInputItemRef, ListInputItemProps>(
     const {
         // List-specific props
         label,
+        rightLabel,
         required = false,
         inline = false,
         showPasswordToggle = false,
@@ -65,6 +70,7 @@ const ListInputItemComponent = forwardRef<ListInputItemRef, ListInputItemProps>(
         disabled = false,
         lastItem = false,
         labelStyle,
+        rightLabelStyle,
         inputStyle,
         containerStyle,
         wrapperStyle,
@@ -173,6 +179,12 @@ const ListInputItemComponent = forwardRef<ListInputItemRef, ListInputItemProps>(
         inputInline: {
             textAlign: 'right' as const
         } as TextStyle,
+        rightLabelText: {
+            fontSize: tokens.fontSizeMd + 0.5,
+            fontWeight: tokens.fontWeightNormal,
+            color: colors.textSecondary,
+            marginLeft: tokens.spacingSm
+        } as TextStyle,
         passwordToggle: {
             paddingLeft: tokens.spacingSm,
             paddingVertical: tokens.spacingXs
@@ -230,6 +242,12 @@ const ListInputItemComponent = forwardRef<ListInputItemRef, ListInputItemProps>(
                         placeholderTextColor={placeholderTextColor ?? colors.textHint}
                         {...textInputProps}
                     />
+
+                    {rightLabel && (
+                        <Text style={[styles.rightLabelText, rightLabelStyle]}>
+                            {rightLabel}
+                        </Text>
+                    )}
 
                     {showPasswordToggle && secureTextEntry && (
                         <Pressable

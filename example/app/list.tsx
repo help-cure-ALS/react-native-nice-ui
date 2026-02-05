@@ -294,6 +294,29 @@ export default function ListDemoScreen() {
                 />
             </List.Section>
 
+            {/* Input Items with Right Label (Units) */}
+            <List.Section title="Input with Right Label" rounded>
+                <List.InputItem
+                    label="Gewicht"
+                    placeholder="0.0"
+                    rightLabel="kg"
+                    keyboardType="decimal-pad"
+                />
+                <List.InputItem
+                    label="Preis"
+                    placeholder="0.00"
+                    rightLabel="€"
+                    keyboardType="decimal-pad"
+                />
+                <List.InputItem
+                    label="Rabatt"
+                    placeholder="0"
+                    rightLabel="%"
+                    keyboardType="number-pad"
+                    inline
+                />
+            </List.Section>
+
             {/* Slider Items */}
             <List.Section title="Slider Items" rounded>
                 <List.SliderItem

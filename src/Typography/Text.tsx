@@ -81,19 +81,19 @@ export const Text = memo<TextProps>(({
         headlineLarge: {
             fontSize: 32,
             lineHeight: 40,
-            fontWeight: tokens.fontWeightNormal,
+            fontWeight: tokens.fontWeightBold,
             letterSpacing: 0
         },
         headlineMedium: {
             fontSize: 28,
             lineHeight: 36,
-            fontWeight: tokens.fontWeightNormal,
+            fontWeight: tokens.fontWeightBold,
             letterSpacing: 0
         },
         headlineSmall: {
             fontSize: 24,
             lineHeight: 32,
-            fontWeight: tokens.fontWeightNormal,
+            fontWeight: tokens.fontWeightBold,
             letterSpacing: 0
         },
 
