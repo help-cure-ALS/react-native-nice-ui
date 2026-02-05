@@ -1,5 +1,8 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Text, List, useTheme } from '../../src';
+import {
+    Text as RNText
+} from 'react-native';
 
 export default function TypographyScreen() {
     const { colors } = useTheme();
@@ -38,6 +41,7 @@ export default function TypographyScreen() {
                 <View style={styles.section}>
                     <Text variant="bodyLarge">Body Large - Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>
                     <Text variant="bodyMedium">Body Medium - Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>
+                    <RNText style={{ fontSize: 17 }}>Body Medium - Lorem ipsum dolor sit amet, consectetur adipiscing elit.</RNText>
                     <Text variant="bodySmall">Body Small - Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>
                 </View>
             </List.Section>
