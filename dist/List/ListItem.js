@@ -28,7 +28,7 @@ const ListItem = memo((props) => {
     const hasLeftCmp = !!leftCmp;
     const hasImageSource = !!imageSource;
     const hasImageSvg = !!imageAsSvg;
-    const hasRightTitle = rightTitle !== '';
+    const hasRightTitle = rightTitle !== '' && rightTitle != null;
     const isPressable = !!(onPress || onLongPress);
     const showSubtitle = subtitle !== null && subtitle !== '';
     // Dynamic styles using tokens
@@ -69,8 +69,9 @@ const ListItem = memo((props) => {
             alignItems: 'flex-start'
         },
         title: {
-            fontSize: tokens.fontSizeMd + 0.5,
+            fontSize: tokens.fontSizeMd,
             fontWeight: tokens.fontWeightNormal,
+            lineHeight: tokens.lineHeightMd,
             marginRight: 5
         },
         titleMediaStyle: {
@@ -80,7 +81,8 @@ const ListItem = memo((props) => {
         },
         subtitle: {
             marginTop: 3,
-            fontSize: tokens.fontSizeSm + 1
+            fontSize: tokens.fontSizeSm + 1,
+            lineHeight: tokens.lineHeightSm,
         },
         rightTitleContainer: {
             flex: 0,
@@ -130,27 +132,31 @@ const ListItem = memo((props) => {
 
                 <View style={[styles.titleContainer, titleContainerStyle]}>
                     <View style={[styles.titleRow, titleRowStyle]}>
-                        <Text numberOfLines={titleNumberOfLines} style={[
-            styles.title,
-            mediaStyle && styles.titleMediaStyle,
-            { color: colors.textPrimary },
-            titleStyle
-        ]}>
-                            {title}
-                        </Text>
+                        {typeof title === 'string' ? (<Text numberOfLines={titleNumberOfLines} style={[
+                styles.title,
+                mediaStyle && styles.titleMediaStyle,
+                { color: colors.textPrimary },
+                titleStyle
+            ]}>
+                                {title}
+                            </Text>) : (<View style={[{ flex: 1 }, titleStyle]}>
+                                {title}
+                            </View>)}
 
                         {titleCmp && <View>{titleCmp}</View>}
                     </View>
 
-                    {showSubtitle && (<Text numberOfLines={subtitleNumberOfLines} style={[styles.subtitle, { color: colors.textTertiary }, subtitleStyle]}>
-                            {subtitle}
-                        </Text>)}
+                    {showSubtitle && (typeof subtitle === 'string' ? (<Text numberOfLines={subtitleNumberOfLines} style={[styles.subtitle, { color: colors.textTertiary }, subtitleStyle]}>
+                                {subtitle}
+                            </Text>) : (<View style={[{ marginTop: 3 }, subtitleStyle]}>
+                                {subtitle}
+                            </View>))}
                 </View>
 
                 {hasRightTitle && (<View style={[styles.rightTitleContainer, rightTitleContainerStyle]}>
-                        <Text numberOfLines={1} style={[styles.rightTitle, { color: colors.textTertiary }, rightTitleStyle]}>
-                            {rightTitle}
-                        </Text>
+                        {typeof rightTitle === 'string' ? (<Text numberOfLines={1} style={[styles.rightTitle, { color: colors.textTertiary }, rightTitleStyle]}>
+                                {rightTitle}
+                            </Text>) : (rightTitle)}
                     </View>)}
 
                 {rightCmp && (<View style={[styles.rightIconContainer, rightIconContainerStyle, rightCmpStyle]}>

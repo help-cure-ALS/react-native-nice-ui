@@ -9,7 +9,7 @@ const ListInputItemComponent = forwardRef((props, ref) => {
     const inputRef = useRef(null);
     const { 
     // List-specific props
-    label, required = false, inline = false, showPasswordToggle = false, passwordToggleSize = 22, disabled = false, lastItem = false, labelStyle, inputStyle, containerStyle, wrapperStyle, dividerStyle, 
+    label, rightLabel, required = false, inline = false, showPasswordToggle = false, passwordToggleSize = 22, disabled = false, lastItem = false, labelStyle, rightLabelStyle, inputStyle, containerStyle, wrapperStyle, dividerStyle, 
     // TextInput props
     secureTextEntry, onFocus, onBlur, placeholderTextColor, textAlign, ...textInputProps } = props;
     const [isFocused, setIsFocused] = useState(false);
@@ -100,6 +100,12 @@ const ListInputItemComponent = forwardRef((props, ref) => {
         inputInline: {
             textAlign: 'right'
         },
+        rightLabelText: {
+            fontSize: tokens.fontSizeMd + 0.5,
+            fontWeight: tokens.fontWeightNormal,
+            color: colors.textSecondary,
+            marginLeft: tokens.spacingSm
+        },
         passwordToggle: {
             paddingLeft: tokens.spacingSm,
             paddingVertical: tokens.spacingXs
@@ -120,15 +126,24 @@ const ListInputItemComponent = forwardRef((props, ref) => {
             dividerStyle,
             wrapperStyle
         ]}>
-                {label && (<Text style={[
+                {label && (inline ? (<Pressable onPress={() => { var _a; return (_a = inputRef.current) === null || _a === void 0 ? void 0 : _a.focus(); }} disabled={disabled}>
+                            <Text style={[
                 styles.label,
-                inline && styles.labelInline,
-                { color: inline ? colors.textPrimary : colors.textTertiary },
+                styles.labelInline,
+                { color: colors.textPrimary },
                 isFocused && styles.labelFocused,
                 labelStyle
             ]} numberOfLines={1}>
-                        {label}{required ? ' *' : ''}
-                    </Text>)}
+                                {label}{required ? ' *' : ''}
+                            </Text>
+                        </Pressable>) : (<Text style={[
+                styles.label,
+                { color: colors.textTertiary },
+                isFocused && styles.labelFocused,
+                labelStyle
+            ]} numberOfLines={1}>
+                            {label}{required ? ' *' : ''}
+                        </Text>))}
 
                 <View style={[styles.inputRow, inline && styles.inputRowInline]}>
                     <TextInput ref={inputRef} style={[
@@ -136,6 +151,10 @@ const ListInputItemComponent = forwardRef((props, ref) => {
             inline && styles.inputInline,
             inputStyle
         ]} textAlign={textAlign !== null && textAlign !== void 0 ? textAlign : (inline ? 'right' : 'left')} editable={!disabled} secureTextEntry={shouldHideText} onFocus={handleFocus} onBlur={handleBlur} placeholderTextColor={placeholderTextColor !== null && placeholderTextColor !== void 0 ? placeholderTextColor : colors.textHint} {...textInputProps}/>
+
+                    {rightLabel && (<Text style={[styles.rightLabelText, rightLabelStyle]}>
+                            {rightLabel}
+                        </Text>)}
 
                     {showPasswordToggle && secureTextEntry && (<Pressable onPress={togglePasswordVisibility} style={styles.passwordToggle} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }} accessibilityRole="button" accessibilityLabel={passwordVisible ? 'Hide password' : 'Show password'}>
                             {passwordVisible ? (<Eye width={passwordToggleSize} height={passwordToggleSize} fill={colors.textPrimary}/>) : (<EyeOff width={passwordToggleSize} height={passwordToggleSize} fill={colors.textHint}/>)}

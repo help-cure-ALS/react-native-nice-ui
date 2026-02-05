@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { Text as RNText } from 'react-native';
 import { useTheme } from '../theme';
-export const Text = memo(({ variant, color = 'primary', align, style, children, ...textProps }) => {
+export const Text = memo(({ variant = 'bodyMedium', color = 'primary', align, style, children, ...textProps }) => {
     const { colors, tokens } = useTheme();
     const colorMap = {
         primary: colors.textPrimary,
@@ -21,32 +21,32 @@ export const Text = memo(({ variant, color = 'primary', align, style, children, 
             fontSize: 45,
             lineHeight: 52,
             fontWeight: tokens.fontWeightNormal,
-            letterSpacing: 0
+            letterSpacing: -0.2
         },
         displaySmall: {
             fontSize: 36,
             lineHeight: 44,
             fontWeight: tokens.fontWeightNormal,
-            letterSpacing: 0
+            letterSpacing: -0.2
         },
         // Headline - Section headings
         headlineLarge: {
             fontSize: 32,
             lineHeight: 40,
-            fontWeight: tokens.fontWeightNormal,
-            letterSpacing: 0
+            fontWeight: tokens.fontWeightBold,
+            letterSpacing: -0.2
         },
         headlineMedium: {
             fontSize: 28,
             lineHeight: 36,
-            fontWeight: tokens.fontWeightNormal,
-            letterSpacing: 0
+            fontWeight: tokens.fontWeightBold,
+            letterSpacing: -0.2
         },
         headlineSmall: {
             fontSize: 24,
             lineHeight: 32,
-            fontWeight: tokens.fontWeightNormal,
-            letterSpacing: 0
+            fontWeight: tokens.fontWeightBold,
+            letterSpacing: -0.2
         },
         // Title - Card titles, list titles
         titleLarge: {
@@ -59,51 +59,51 @@ export const Text = memo(({ variant, color = 'primary', align, style, children, 
             fontSize: tokens.fontSizeMd,
             lineHeight: tokens.lineHeightMd,
             fontWeight: tokens.fontWeightMedium,
-            letterSpacing: 0.15
+            letterSpacing: 0
         },
         titleSmall: {
             fontSize: tokens.fontSizeSm,
             lineHeight: tokens.lineHeightSm,
             fontWeight: tokens.fontWeightMedium,
-            letterSpacing: 0.1
+            letterSpacing: 0
         },
         // Body - Running text
         bodyLarge: {
+            fontSize: tokens.fontSizeLg,
+            lineHeight: tokens.lineHeightLg,
+            fontWeight: tokens.fontWeightNormal,
+            letterSpacing: -0.2
+        },
+        bodyMedium: {
             fontSize: tokens.fontSizeMd,
             lineHeight: tokens.lineHeightMd,
             fontWeight: tokens.fontWeightNormal,
-            letterSpacing: 0.5
+            letterSpacing: -0.2
         },
-        bodyMedium: {
+        bodySmall: {
             fontSize: tokens.fontSizeSm,
             lineHeight: tokens.lineHeightSm,
             fontWeight: tokens.fontWeightNormal,
-            letterSpacing: 0.25
-        },
-        bodySmall: {
-            fontSize: tokens.fontSizeXs,
-            lineHeight: tokens.lineHeightXs,
-            fontWeight: tokens.fontWeightNormal,
-            letterSpacing: 0.4
+            letterSpacing: -0.2
         },
         // Label - Buttons, tabs, chips
         labelLarge: {
             fontSize: tokens.fontSizeSm,
             lineHeight: tokens.lineHeightSm,
             fontWeight: tokens.fontWeightMedium,
-            letterSpacing: 0.1
+            letterSpacing: -0.2
         },
         labelMedium: {
             fontSize: tokens.fontSizeXs,
             lineHeight: tokens.lineHeightXs,
             fontWeight: tokens.fontWeightMedium,
-            letterSpacing: 0.5
+            letterSpacing: -0.2
         },
         labelSmall: {
             fontSize: 11,
             lineHeight: 16,
             fontWeight: tokens.fontWeightMedium,
-            letterSpacing: 0.5
+            letterSpacing: -0.2
         }
     };
     return (<RNText style={[

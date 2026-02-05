@@ -1,9 +1,9 @@
 import React, { ReactNode } from 'react';
 import { StyleProp, ViewStyle, TextStyle, ImageStyle, ImageSourcePropType } from 'react-native';
 export type ListItemProps = {
-    title?: string;
-    subtitle?: string | null;
-    rightTitle?: string;
+    title?: string | ReactNode;
+    subtitle?: string | ReactNode | null;
+    rightTitle?: string | ReactNode;
     titleStyle?: StyleProp<TextStyle>;
     titleContainerStyle?: StyleProp<ViewStyle>;
     rightTitleStyle?: StyleProp<TextStyle>;

@@ -3,6 +3,8 @@ import { StyleProp, TextInputProps, ViewStyle, TextStyle } from 'react-native';
 export interface ListInputItemProps extends Omit<TextInputProps, 'style'> {
     /** Label text above the input (or left side when inline) */
     label?: string;
+    /** Label text right of the input (e.g. unit "kg", "€") */
+    rightLabel?: string;
     /** Show asterisk after label */
     required?: boolean;
     /** Horizontal layout: label left, input right (like List.Item with rightTitle) */
@@ -17,6 +19,8 @@ export interface ListInputItemProps extends Omit<TextInputProps, 'style'> {
     lastItem?: boolean;
     /** Label text style */
     labelStyle?: StyleProp<TextStyle>;
+    /** Right label text style */
+    rightLabelStyle?: StyleProp<TextStyle>;
     /** Input text style */
     inputStyle?: StyleProp<TextStyle>;
     /** Outer container style */

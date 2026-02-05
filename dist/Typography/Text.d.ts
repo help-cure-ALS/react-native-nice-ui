@@ -3,8 +3,8 @@ import { TextProps as RNTextProps, StyleProp, TextStyle } from 'react-native';
 export type TextVariant = 'displayLarge' | 'displayMedium' | 'displaySmall' | 'headlineLarge' | 'headlineMedium' | 'headlineSmall' | 'titleLarge' | 'titleMedium' | 'titleSmall' | 'bodyLarge' | 'bodyMedium' | 'bodySmall' | 'labelLarge' | 'labelMedium' | 'labelSmall';
 export type TextColor = 'primary' | 'secondary' | 'tertiary' | 'hint';
 export interface TextProps extends Omit<RNTextProps, 'style'> {
-    /** Typography variant */
-    variant: TextVariant;
+    /** Typography variant (default: bodyMedium) */
+    variant?: TextVariant;
     /** Text color based on theme */
     color?: TextColor;
     /** Text alignment */
