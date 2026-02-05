@@ -98,6 +98,13 @@ Compound component for building iOS-style lists.
     <List.InputItem label="Name" placeholder="John" inline />
 </List.Section>
 
+// Input with Right Label (units)
+<List.Section title="Measurements" rounded>
+    <List.InputItem label="Weight" placeholder="0.0" rightLabel="kg" />
+    <List.InputItem label="Price" placeholder="0.00" rightLabel="€" />
+    <List.InputItem label="Discount" placeholder="0" rightLabel="%" inline />
+</List.Section>
+
 // Section Card (with header/title/body)
 <List.SectionCard
     header="Step 1 of 3"
