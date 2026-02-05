@@ -212,18 +212,34 @@ const ListInputItemComponent = forwardRef<ListInputItemRef, ListInputItemProps>(
                 ]}
             >
                 {label && (
-                    <Text
-                        style={[
-                            styles.label,
-                            inline && styles.labelInline,
-                            { color: inline ? colors.textPrimary : colors.textTertiary },
-                            isFocused && styles.labelFocused,
-                            labelStyle
-                        ]}
-                        numberOfLines={1}
-                    >
-                        {label}{required ? ' *' : ''}
-                    </Text>
+                    inline ? (
+                        <Pressable onPress={() => inputRef.current?.focus()} disabled={disabled}>
+                            <Text
+                                style={[
+                                    styles.label,
+                                    styles.labelInline,
+                                    { color: colors.textPrimary },
+                                    isFocused && styles.labelFocused,
+                                    labelStyle
+                                ]}
+                                numberOfLines={1}
+                            >
+                                {label}{required ? ' *' : ''}
+                            </Text>
+                        </Pressable>
+                    ) : (
+                        <Text
+                            style={[
+                                styles.label,
+                                { color: colors.textTertiary },
+                                isFocused && styles.labelFocused,
+                                labelStyle
+                            ]}
+                            numberOfLines={1}
+                        >
+                            {label}{required ? ' *' : ''}
+                        </Text>
+                    )
                 )}
 
                 <View style={[styles.inputRow, inline && styles.inputRowInline]}>
