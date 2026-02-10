@@ -4,7 +4,8 @@ import { ArrowRight, CheckboxEmpty, CheckboxChecked } from '../assets/icons';
 import { useTheme } from '../theme';
 import { useListContext } from './List';
 const ListItem = memo((props) => {
-    const { colors, tokens } = useTheme();
+    var _a, _b;
+    const { colors, tokens, isDark, customStyles } = useTheme();
     const { spaced } = useListContext();
     const { 
     // text / containers
@@ -15,6 +16,8 @@ const ListItem = memo((props) => {
     imageSize = 28, imageSource = null, imageAsSvg = null, imageWrapperStyle, imageStyle, 
     // row internals
     titleRowStyle, rightIconContainerStyle, dividerStyle, 
+    // badge
+    badge = null, badgePosition = 'right', badgeStyle, 
     // affordances
     type = null, checked = null, checkboxSize = 28, hideChevron: hideChevronProp, rightIconSize = 20, rightIconColor = colors.listItemIcon, 
     // behavior
@@ -30,6 +33,7 @@ const ListItem = memo((props) => {
     const hasImageSvg = !!imageAsSvg;
     const hasRightTitle = rightTitle !== '' && rightTitle != null;
     const isPressable = !!(onPress || onLongPress);
+    const isTopRight = !!badge && badgePosition === 'top-right';
     const showSubtitle = subtitle !== null && subtitle !== '';
     // Dynamic styles using tokens
     const styles = {
@@ -102,6 +106,7 @@ const ListItem = memo((props) => {
             styles.container,
             spaced && styles.containerSpaced,
             { backgroundColor: colors.listItemBackground },
+            isTopRight && { position: 'relative' },
             containerStyle,
             disabled && { opacity: 0.5 },
             pressed && isPressable && !disabled && { backgroundColor: colors.listItemBackgroundPress }
@@ -136,6 +141,7 @@ const ListItem = memo((props) => {
                 styles.title,
                 mediaStyle && styles.titleMediaStyle,
                 { color: colors.textPrimary },
+                (_a = customStyles.listItemTitle) === null || _a === void 0 ? void 0 : _a.call(customStyles, { colors, tokens, isDark }),
                 titleStyle
             ]}>
                                 {title}
@@ -144,9 +150,17 @@ const ListItem = memo((props) => {
                             </View>)}
 
                         {titleCmp && <View>{titleCmp}</View>}
+                        {!!badge && badgePosition === 'inline' && (<View style={[{ marginLeft: tokens.spacingSm, flexShrink: 1 }, badgeStyle]}>
+                                {badge}
+                            </View>)}
                     </View>
 
-                    {showSubtitle && (typeof subtitle === 'string' ? (<Text numberOfLines={subtitleNumberOfLines} style={[styles.subtitle, { color: colors.textTertiary }, subtitleStyle]}>
+                    {showSubtitle && (typeof subtitle === 'string' ? (<Text numberOfLines={subtitleNumberOfLines} style={[
+                styles.subtitle,
+                { color: colors.textTertiary },
+                (_b = customStyles.listItemSubtitle) === null || _b === void 0 ? void 0 : _b.call(customStyles, { colors, tokens, isDark }),
+                subtitleStyle
+            ]}>
                                 {subtitle}
                             </Text>) : (<View style={[{ marginTop: 3 }, subtitleStyle]}>
                                 {subtitle}
@@ -157,6 +171,10 @@ const ListItem = memo((props) => {
                         {typeof rightTitle === 'string' ? (<Text numberOfLines={1} style={[styles.rightTitle, { color: colors.textTertiary }, rightTitleStyle]}>
                                 {rightTitle}
                             </Text>) : (rightTitle)}
+                    </View>)}
+
+                {!!badge && badgePosition === 'right' && (<View style={[{ marginLeft: tokens.spacingSm, flexShrink: 1 }, badgeStyle]}>
+                        {badge}
                     </View>)}
 
                 {rightCmp && (<View style={[styles.rightIconContainer, rightIconContainerStyle, rightCmpStyle]}>
@@ -173,6 +191,18 @@ const ListItem = memo((props) => {
 
                 {children}
             </View>
+
+            {isTopRight && (<View style={[
+                {
+                    position: 'absolute',
+                    top: 9,
+                    right: 10,
+                    flexShrink: 1
+                },
+                badgeStyle
+            ]} pointerEvents="none">
+                    {badge}
+                </View>)}
         </Pressable>);
 });
 export { ListItem };

@@ -4,7 +4,8 @@ import { useTheme } from '../theme';
 const ListContext = createContext({ spaced: false });
 export const useListContext = () => useContext(ListContext);
 const List = memo((props) => {
-    const { colors, tokens } = useTheme();
+    var _a;
+    const { colors, tokens, isDark, customStyles } = useTheme();
     const { children, rounded = false, borders = true, spaced = false, spacing, containerStyle, title, titleStyle, rightCmp, style, ...attributes } = props;
     // Use provided spacing or default from tokens
     const effectiveSpacing = spacing !== null && spacing !== void 0 ? spacing : tokens.listSpacedGap;
@@ -66,7 +67,12 @@ const List = memo((props) => {
     return (<ListContext.Provider value={contextValue}>
             <View style={[styles.wrapper, (rounded || spaced) && styles.wrapperRounded, style]}>
                 {(title || rightCmp) && (<View style={styles.titleWrapper}>
-                        {!!title && (<Text style={[styles.title, { color: colors.textTertiary }, titleStyle]} numberOfLines={1}>
+                        {!!title && (<Text style={[
+                    styles.title,
+                    { color: colors.textTertiary },
+                    (_a = customStyles.listSectionTitle) === null || _a === void 0 ? void 0 : _a.call(customStyles, { colors, tokens, isDark }),
+                    titleStyle
+                ]} numberOfLines={1}>
                                 {title}
                             </Text>)}
                         {!!rightCmp && <View style={styles.rightContainer}>{rightCmp}</View>}

@@ -14,4 +14,6 @@ export interface UIColors {
     listItemBackgroundPress: string;
     listItemBorder: string;
     checkboxDisabled: string;
+    buttonSecondaryBackground: string;
+    buttonGhostBackgroundPress: string;
 }

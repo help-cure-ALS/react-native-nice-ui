@@ -38,6 +38,12 @@ export type ListItemProps = {
     rightIconContainerStyle?: StyleProp<ViewStyle>;
     /** Style applied to the divider (borderBottom*) */
     dividerStyle?: StyleProp<ViewStyle>;
+    /** Badge element (e.g. <Badge label="Aktiv" variant="success" />) */
+    badge?: ReactNode;
+    /** Badge position: 'right' (default), 'inline' (next to title), or 'top-right' (absolute corner) */
+    badgePosition?: 'inline' | 'right' | 'top-right';
+    /** Style for the badge wrapper (e.g. override top/right for 'top-right') */
+    badgeStyle?: StyleProp<ViewStyle>;
     type?: 'checkbox' | null;
     checked?: boolean | null;
     checkboxSize?: number;
