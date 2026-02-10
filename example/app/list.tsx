@@ -171,6 +171,20 @@ export default function ListDemoScreen() {
                 />
             </List.Section>
 
+            {/* customStyles Override Demo */}
+            <List.Section title="Custom Styles (Global)" rounded>
+                <List.Item
+                    title="Global Title Style"
+                    subtitle="Global Subtitle Style"
+                />
+                <List.Item
+                    title="Local Override"
+                    subtitle="Local Subtitle Override"
+                    titleStyle={{ fontWeight: '800', fontStyle: 'italic' }}
+                    subtitleStyle={{ color: colors.primary }}
+                />
+            </List.Section>
+
             {/* Spaced Card Layout */ }
             <List.Section title="Spaced (Card Layout)" spaced>
                 <List.Item

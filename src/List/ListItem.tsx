@@ -89,7 +89,7 @@ export type ListItemProps = {
 };
 
 const ListItem = memo<ListItemProps>((props) => {
-    const { colors, tokens } = useTheme();
+    const { colors, tokens, isDark, customStyles } = useTheme();
     const { spaced } = useListContext();
 
     const {
@@ -296,6 +296,7 @@ const ListItem = memo<ListItemProps>((props) => {
                                     styles.title,
                                     mediaStyle && styles.titleMediaStyle,
                                     { color: colors.textPrimary },
+                                    customStyles.listItemTitle?.({ colors, tokens, isDark }),
                                     titleStyle
                                 ]}
                             >
@@ -314,7 +315,12 @@ const ListItem = memo<ListItemProps>((props) => {
                         typeof subtitle === 'string' ? (
                             <Text
                                 numberOfLines={subtitleNumberOfLines}
-                                style={[styles.subtitle, { color: colors.textTertiary }, subtitleStyle]}
+                                style={[
+                                    styles.subtitle,
+                                    { color: colors.textTertiary },
+                                    customStyles.listItemSubtitle?.({ colors, tokens, isDark }),
+                                    subtitleStyle
+                                ]}
                             >
                                 {subtitle}
                             </Text>

@@ -196,6 +196,76 @@ Project-specific colors live in `src/theme` and are injected by the app theme pr
 
 ---
 
+## Global Style Overrides with `customStyles`
+
+Override the default text styles for section titles, item titles, and item subtitles globally via `UIThemeProvider`:
+
+```tsx
+import { UIThemeProvider, CustomStyles } from 'react-native-nice-ui';
+
+const customStyles: CustomStyles = {
+  listSectionTitle: ({ colors }) => ({
+    fontSize: 13,
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    color: colors.textHint,
+  }),
+  listItemTitle: ({ tokens }) => ({
+    fontSize: tokens.fontSizeMd,
+    fontWeight: '600',
+  }),
+  listItemSubtitle: ({ colors }) => ({
+    color: colors.textSecondary,
+  }),
+};
+
+<UIThemeProvider themeName="light" customStyles={customStyles}>
+  <App />
+</UIThemeProvider>
+```
+
+Each function receives a context object:
+
+```ts
+interface CustomStyleContext {
+  colors: UIColors;
+  tokens: UITokens;
+  isDark: boolean;
+}
+```
+
+### Merge Order
+
+```
+Built-in Style  →  customStyles (Provider)  →  titleStyle / subtitleStyle (Instance Prop)
+```
+
+Local props always win, so you can still override per instance:
+
+```tsx
+// Global customStyles apply automatically
+<List.Section title="Account">
+  <List.Item title="Profile" subtitle="Name, email" />
+</List.Section>
+
+// Local prop overrides the global style
+<List.Item
+  title="Special Item"
+  titleStyle={{ fontWeight: '800', fontStyle: 'italic' }}
+/>
+```
+
+### Available Keys
+
+| Key | Applies to | Component |
+|---|---|---|
+| `listSectionTitle` | Section header text | `List` / `List.Section` |
+| `listItemTitle` | Item title text | `List.Item` |
+| `listItemSubtitle` | Item subtitle text | `List.Item` |
+
+---
+
 ## Notes & Conventions
 
 - Prefer composition over adding many props:

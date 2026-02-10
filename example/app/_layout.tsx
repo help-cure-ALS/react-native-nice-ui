@@ -2,7 +2,7 @@ import { useState, useCallback, createContext, useContext } from 'react';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useColorScheme, Pressable, Text } from 'react-native';
-import { UIThemeProvider, ThemeName, CustomVariants } from '../../src';
+import { UIThemeProvider, ThemeName, CustomVariants, CustomStyles } from '../../src';
 
 // Context for theme toggle
 export const ThemeToggleContext = createContext<() => void>(() => {});
@@ -45,6 +45,22 @@ export default function RootLayout() {
     }),
   };
 
+  const customStyles: CustomStyles = {
+    listSectionTitle: ({ colors }) => ({
+      fontSize: 13,
+      fontWeight: '600',
+      textTransform: 'uppercase',
+      letterSpacing: 0.5,
+      color: colors.textHint,
+    }),
+    listItemTitle: () => ({
+      fontWeight: '500',
+    }),
+    listItemSubtitle: ({ colors }) => ({
+      color: colors.textSecondary,
+    }),
+  };
+
   const ThemeToggleButton = () => (
     <Pressable onPress={toggleTheme} style={{ paddingHorizontal: 12 }}>
       <Text style={{ color: themeName === 'dark' ? '#0099ff' : '#007AFF', fontSize: 16 }}>
@@ -55,7 +71,7 @@ export default function RootLayout() {
 
   return (
     <ThemeToggleContext.Provider value={toggleTheme}>
-      <UIThemeProvider themeName={themeName} customVariants={customVariants}>
+      <UIThemeProvider themeName={themeName} customVariants={customVariants} customStyles={customStyles}>
         <StatusBar style={themeName === 'dark' ? 'light' : 'dark'} />
         <Stack
           screenOptions={{

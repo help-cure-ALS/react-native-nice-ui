@@ -37,7 +37,7 @@ export type ListProps = ViewProps & {
 };
 
 const List = memo<ListProps>((props) => {
-    const { colors, tokens } = useTheme();
+    const { colors, tokens, isDark, customStyles } = useTheme();
 
     const {
         children,
@@ -124,7 +124,15 @@ const List = memo<ListProps>((props) => {
                 {(title || rightCmp) && (
                     <View style={styles.titleWrapper}>
                         {!!title && (
-                            <Text style={[styles.title, { color: colors.textTertiary }, titleStyle]} numberOfLines={1}>
+                            <Text
+                                style={[
+                                    styles.title,
+                                    { color: colors.textTertiary },
+                                    customStyles.listSectionTitle?.({ colors, tokens, isDark }),
+                                    titleStyle
+                                ]}
+                                numberOfLines={1}
+                            >
                                 {title}
                             </Text>
                         )}

@@ -23,12 +23,27 @@ export type ButtonVariantStyleFn = (context: VariantStyleContext) => VariantStyl
 export type ButtonVariantStyleValue = VariantStyleResult | ButtonVariantStyleFn;
 export type CustomVariants = Record<string, ButtonVariantStyleFn>;
 
+export interface CustomStyleContext {
+    colors: UIColors;
+    tokens: UITokens;
+    isDark: boolean;
+}
+
+export type CustomStyleFn = (context: CustomStyleContext) => TextStyle;
+
+export interface CustomStyles {
+    listSectionTitle?: CustomStyleFn;
+    listItemTitle?: CustomStyleFn;
+    listItemSubtitle?: CustomStyleFn;
+}
+
 export interface UIThemeContextType {
     themeName: ThemeName;
     colors: UIColors;
     tokens: UITokens;
     isDark: boolean;
     customVariants: CustomVariants;
+    customStyles: CustomStyles;
 }
 
 const ThemeContext = createContext<UIThemeContextType | undefined>(undefined);
@@ -38,12 +53,14 @@ export function UIThemeProvider({
     colors,
     tokens,
     customVariants,
+    customStyles,
     children
 }: {
     themeName: ThemeName;
     colors?: Partial<UIColors>;
     tokens?: Partial<UITokens>;
     customVariants?: CustomVariants;
+    customStyles?: CustomStyles;
     children: ReactNode;
 }) {
     const value = useMemo<UIThemeContextType>(() => {
@@ -53,8 +70,12 @@ export function UIThemeProvider({
         const mergedColors: UIColors = { ...colorDefaults, ...(colors ?? {}) };
         const mergedTokens: UITokens = { ...defaultTokens, ...(tokens ?? {}) };
 
-        return { themeName, isDark, colors: mergedColors, tokens: mergedTokens, customVariants: customVariants ?? {} };
-    }, [themeName, colors, tokens, customVariants]);
+        return {
+            themeName, isDark, colors: mergedColors, tokens: mergedTokens,
+            customVariants: customVariants ?? {},
+            customStyles: customStyles ?? {}
+        };
+    }, [themeName, colors, tokens, customVariants, customStyles]);
 
     return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
