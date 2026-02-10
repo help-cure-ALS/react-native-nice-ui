@@ -209,7 +209,7 @@ export default function ListDemoScreen() {
                 />
                 <List.Item
                     title="Dark Mode"
-                    badge={<Badge label="Beta" variant="default" size="small" />}
+                    badge={<Badge label="Beta  mit sehr viel Text, um die Darstellung zu testen" variant="default" size="small" />}
                     badgePosition="inline"
                     onPress={() => {}}
                 />
@@ -219,6 +219,35 @@ export default function ListDemoScreen() {
                     badge={<Badge label="VIP" color="#D4AF37" textColor="#fff" size="small" />}
                     badgePosition="inline"
                     onPress={() => {}}
+                />
+            </List.Section>
+
+            {/* Badge - Top-Right Position */}
+            <List.Section title="Badge (Top-Right)" rounded>
+                <List.Item
+                    title="Abo"
+                    subtitle="Premium Plan – monatlich"
+                    badge={<Badge label="Aktiv" variant="success" size="small" />}
+                    badgePosition="top-right"
+                    onPress={() => {}}
+                />
+                <List.Item
+                    title="Konto"
+                    subtitle="Max Mustermann"
+                    badge={<Badge label="Verifiziert" variant="info" size="small" />}
+                    badgePosition="top-right"
+                    onPress={() => {}}
+                />
+                <List.Item
+                    title="Zahlung"
+                    subtitle="Visa •••• 4242"
+                    badge={<Badge label="Fehler" variant="error" size="small" />}
+                    badgePosition="top-right"
+                />
+                <List.Item
+                    title="Yesterday's Update"
+                    badge={<Badge label="Love it" variant="success" size="small" />}
+                    badgePosition="top-right"
                 />
             </List.Section>
 

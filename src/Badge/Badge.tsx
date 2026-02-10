@@ -52,7 +52,7 @@ const Badge = memo<BadgeProps>((props) => {
                     backgroundColor: bg,
                     paddingHorizontal: isSmall ? 6 : 8,
                     paddingVertical: isSmall ? 2 : 3,
-                    borderRadius: isSmall ? 4 : 5
+                    borderRadius: isSmall ? 8 : 12
                 },
                 style
             ]}
@@ -77,7 +77,8 @@ const Badge = memo<BadgeProps>((props) => {
 
 const styles = StyleSheet.create({
     container: {
-        alignSelf: 'flex-start'
+        alignSelf: 'flex-start',
+        flexShrink: 1
     },
     text: {
         textAlign: 'center'

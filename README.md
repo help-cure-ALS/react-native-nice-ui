@@ -5,9 +5,10 @@ A reusable UI component library for React Native with theming support, designed 
 ## Features
 
 - **List Components** - Section, Item, InputItem, SliderItem, SectionCard, Text, Wrapper
+- **Badge** - Status labels with 5 variants, 2 sizes, custom colors
 - **Typography** - Text component with 15 variants (display, headline, title, body, label)
-- **Button** - 7 variants, 3 sizes, icons, loading state
-- **Theme System** - Colors and design tokens with light/dark mode
+- **Button** - 7 built-in variants + custom variants, subtitle support, per-instance overrides
+- **Theme System** - Colors, tokens, `customVariants`, `customStyles` with light/dark mode
 - **iOS 26 Support** - Automatic adjustments for larger paddings and radii
 - **Icons** - SVG icons using react-native-svg
 
@@ -16,7 +17,7 @@ A reusable UI component library for React Native with theming support, designed 
 ## Installation
 
 ```bash
-npm install github:help-cure-ALS/react-native-nice-ui#v1.2.0
+npm install github:help-cure-ALS/react-native-nice-ui#v1.3.0
 ```
 
 ### Peer Dependencies
@@ -115,6 +116,34 @@ Compound component for building iOS-style lists.
     <List.InputItem label="Email" />
 </List.SectionCard>
 
+// Badge on List Items
+<List.Section title="Status" rounded>
+    <List.Item
+        title="Subscription"
+        subtitle="Premium Plan"
+        badge={<Badge label="Active" variant="success" />}
+        onPress={() => {}}
+    />
+    <List.Item
+        title="Payment"
+        badge={<Badge label="Pending" variant="warning" />}
+        onPress={() => {}}
+    />
+    <List.Item
+        title="Premium"
+        badge={<Badge label="New" variant="info" size="small" />}
+        badgePosition="inline"
+        onPress={() => {}}
+    />
+    <List.Item
+        title="Subscription"
+        subtitle="Premium Plan"
+        badge={<Badge label="Active" variant="success" size="small" />}
+        badgePosition="top-right"
+        onPress={() => {}}
+    />
+</List.Section>
+
 // Slider Items (requires @react-native-community/slider)
 <List.Section title="Settings">
     <List.SliderItem
@@ -126,6 +155,26 @@ Compound component for building iOS-style lists.
         onSlidingComplete={setVolume}
     />
 </List.Section>
+```
+
+### Badge
+
+```tsx
+import { Badge } from 'react-native-nice-ui';
+
+// Variants
+<Badge label="Active" variant="success" />
+<Badge label="Pending" variant="warning" />
+<Badge label="Error" variant="error" />
+<Badge label="Info" variant="info" />
+<Badge label="Default" variant="default" />
+
+// Sizes
+<Badge label="Medium" variant="success" />
+<Badge label="Small" variant="info" size="small" />
+
+// Custom Colors
+<Badge label="VIP" color="#D4AF37" textColor="#fff" />
 ```
 
 ### Text (Typography)
@@ -184,12 +233,37 @@ Compound component for building iOS-style lists.
 // Icon Only
 <Button iconOnly leftIcon={<CloseIcon />} onPress={() => {}} />
 
+// Subtitle
+<Button title="Upgrade to Pro" subtitle="from $4.99/month" size="large" onPress={() => {}} />
+
 // States
 <Button title="Loading" loading onPress={() => {}} />
 <Button title="Disabled" disabled />
 
 // Full Width
 <Button title="Submit" fullWidth onPress={() => {}} />
+
+// Per-instance variant override (static)
+<Button
+    title="Custom"
+    variant="primary"
+    variantStyle={{
+        container: { backgroundColor: '#8B5CF6' },
+        text: { color: '#ffffff' },
+    }}
+    onPress={() => {}}
+/>
+
+// Per-instance variant override (dynamic)
+<Button
+    title="Gold Outline"
+    variant="outline"
+    variantStyle={({ pressed, colors }) => ({
+        container: { borderColor: pressed ? colors.primary : '#D4AF37', borderWidth: 2 },
+        text: { color: '#D4AF37' },
+    })}
+    onPress={() => {}}
+/>
 ```
 
 ### Space
@@ -221,13 +295,65 @@ Available icons: `ArrowLeft`, `ArrowRight`, `Check`, `CheckboxChecked`, `Checkbo
 import { UIThemeProvider } from 'react-native-nice-ui';
 
 <UIThemeProvider
-    themeName="light"           // 'light' | 'dark'
-    colors={customColors}       // Partial<UIColors> - override defaults
-    tokens={customTokens}       // Partial<UITokens> - override defaults
+    themeName="light"                   // 'light' | 'dark'
+    colors={customColors}               // Partial<UIColors> - override defaults
+    tokens={customTokens}               // Partial<UITokens> - override defaults
+    customVariants={customVariants}     // Custom button variants
+    customStyles={customStyles}         // Global text style overrides
 >
     <App />
 </UIThemeProvider>
 ```
+
+### Custom Button Variants
+
+Register new button variants or override built-in ones globally:
+
+```tsx
+import { UIThemeProvider, CustomVariants } from 'react-native-nice-ui';
+
+const customVariants: CustomVariants = {
+    warning: ({ pressed }) => ({
+        container: { backgroundColor: '#FF9500', opacity: pressed ? 0.8 : 1 },
+        text: { color: '#ffffff' },
+    }),
+    premium: ({ colors, isDark, pressed }) => ({
+        container: {
+            backgroundColor: isDark ? '#2D1B69' : '#6B3FA0',
+            borderWidth: 1, borderColor: '#D4AF37',
+            opacity: pressed ? 0.8 : 1,
+        },
+        text: { color: '#D4AF37' },
+    }),
+};
+
+// Use like any built-in variant
+<Button title="Warning" variant="warning" onPress={() => {}} />
+<Button title="Upgrade" variant="premium" size="large" rounded onPress={() => {}} />
+```
+
+### Custom Styles (Global Text Overrides)
+
+Override default text styles for List section titles, item titles, and item subtitles:
+
+```tsx
+import { UIThemeProvider, CustomStyles } from 'react-native-nice-ui';
+
+const customStyles: CustomStyles = {
+    listSectionTitle: ({ colors }) => ({
+        fontSize: 13, fontWeight: '600', textTransform: 'uppercase',
+        letterSpacing: 0.5, color: colors.textHint,
+    }),
+    listItemTitle: () => ({
+        fontWeight: '500',
+    }),
+    listItemSubtitle: ({ colors }) => ({
+        color: colors.textSecondary,
+    }),
+};
+```
+
+Merge order: `Built-in Style` -> `customStyles (Provider)` -> `titleStyle / subtitleStyle (Instance Prop)`
 
 ### useTheme Hook
 
@@ -261,6 +387,8 @@ function MyComponent() {
 | `listItemBackgroundPress` | List item pressed state |
 | `listItemBorder` | List item divider |
 | `listItemIcon` | List item icon color |
+| `buttonSecondaryBackground` | Secondary button background |
+| `buttonGhostBackgroundPress` | Ghost button pressed background |
 | `checkboxDisabled` | Disabled checkbox |
 | `statusBar` | Status bar background |
 | `statusBarStyle` | 'light-content' or 'dark-content' |
@@ -322,6 +450,7 @@ src/
 ├─ Typography/      # Text component
 ├─ List/            # List compound components
 ├─ Button/          # Button component
+├─ Badge/           # Badge component
 ├─ Space/           # Spacing component
 ├─ assets/icons/    # SVG icons
 ├─ platform/        # Platform utilities

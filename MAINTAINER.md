@@ -36,6 +36,10 @@ react-native-nice-ui/
 ├─ src/
 │  ├─ theme/
 │  ├─ List/
+│  ├─ Button/
+│  ├─ Badge/
+│  ├─ Typography/
+│  ├─ Space/
 │  └─ index.ts
 │
 ├─ dist/

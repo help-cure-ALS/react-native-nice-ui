@@ -137,7 +137,8 @@ Common props (see `ListItemProps`):
 - `subtitle?: string | null`
 - `rightTitle?: string`
 - `badge?: ReactNode` — badge element (e.g. `<Badge label="Aktiv" variant="success" />`)
-- `badgePosition?: 'inline' | 'right'` — badge position (`'right'` by default)
+- `badgePosition?: 'inline' | 'right' | 'top-right'` — badge position (`'right'` by default)
+- `badgeStyle?: StyleProp<ViewStyle>` — style for the badge wrapper (e.g. override `top`/`right` for `'top-right'`)
 - `onPress?: () => void`
 - `onLongPress?: () => void`
 - `type?: 'checkbox' | null`
@@ -178,6 +179,23 @@ import { Badge } from 'react-native-nice-ui';
   badge={<Badge label="Neu" variant="info" size="small" />}
   badgePosition="inline"
 />
+
+// Top-right — absolute positioned at top-right corner
+<List.Item
+  title="Abo"
+  subtitle="Premium Plan"
+  badge={<Badge label="Aktiv" variant="success" size="small" />}
+  badgePosition="top-right"
+/>
+
+// Top-right with custom positioning via badgeStyle
+<List.Item
+  title="Abo"
+  subtitle="Premium Plan"
+  badge={<Badge label="Aktiv" variant="success" size="small" />}
+  badgePosition="top-right"
+  badgeStyle={{ top: 4, right: 16 }}
+/>
 ```
 
 Badge position layout:
@@ -185,14 +203,17 @@ Badge position layout:
 ```
 ┌──────────────────────────────────────────────────┐
 │  [Icon]  Title  [① inline]       [② right]  [>]  │
-│          Subtitle                                  │
+│          Subtitle                       [③ top-right]
 └──────────────────────────────────────────────────┘
 ```
+
+Note: ③ is absolutely positioned at the top-right corner of the item.
 
 | Position | `badgePosition` | Description |
 |---|---|---|
 | ① | `'inline'` | In the title row, right after the title text |
 | ② | `'right'` | Right area, vertically centered, before chevron/checkbox (default) |
+| ③ | `'top-right'` | Absolute positioned at top-right corner of the item |
 
 See [Badge README](../Badge/README.md) for the full Badge component API.
 

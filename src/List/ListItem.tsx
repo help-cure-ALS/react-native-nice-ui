@@ -72,8 +72,10 @@ export type ListItemProps = {
     // badge
     /** Badge element (e.g. <Badge label="Aktiv" variant="success" />) */
     badge?: ReactNode;
-    /** Badge position: 'right' (default) or 'inline' (next to title) */
-    badgePosition?: 'inline' | 'right';
+    /** Badge position: 'right' (default), 'inline' (next to title), or 'top-right' (absolute corner) */
+    badgePosition?: 'inline' | 'right' | 'top-right';
+    /** Style for the badge wrapper (e.g. override top/right for 'top-right') */
+    badgeStyle?: StyleProp<ViewStyle>;
 
     // affordances
     type?: 'checkbox' | null;
@@ -140,6 +142,7 @@ const ListItem = memo<ListItemProps>((props) => {
         // badge
         badge = null,
         badgePosition = 'right',
+        badgeStyle,
 
         // affordances
         type = null,
@@ -170,6 +173,7 @@ const ListItem = memo<ListItemProps>((props) => {
     const hasImageSvg = !!imageAsSvg;
     const hasRightTitle = rightTitle !== '' && rightTitle != null;
     const isPressable = !!(onPress || onLongPress);
+    const isTopRight = !!badge && badgePosition === 'top-right';
 
     const showSubtitle = subtitle !== null && subtitle !== '';
 
@@ -255,6 +259,7 @@ const ListItem = memo<ListItemProps>((props) => {
                 styles.container,
                 spaced && styles.containerSpaced,
                 { backgroundColor: colors.listItemBackground },
+                isTopRight && { position: 'relative' as const },
                 containerStyle,
                 disabled && { opacity: 0.5 },
                 pressed && isPressable && !disabled && { backgroundColor: colors.listItemBackgroundPress }
@@ -320,7 +325,7 @@ const ListItem = memo<ListItemProps>((props) => {
 
                         {titleCmp && <View>{titleCmp}</View>}
                         {!!badge && badgePosition === 'inline' && (
-                            <View style={{ marginLeft: tokens.spacingSm }}>
+                            <View style={[{ marginLeft: tokens.spacingSm, flexShrink: 1 }, badgeStyle]}>
                                 {badge}
                             </View>
                         )}
@@ -363,7 +368,7 @@ const ListItem = memo<ListItemProps>((props) => {
                 )}
 
                 {!!badge && badgePosition === 'right' && (
-                    <View style={{ marginLeft: tokens.spacingSm }}>
+                    <View style={[{ marginLeft: tokens.spacingSm, flexShrink: 1 }, badgeStyle]}>
                         {badge}
                     </View>
                 )}
@@ -396,6 +401,23 @@ const ListItem = memo<ListItemProps>((props) => {
 
                 {children}
             </View>
+
+            {isTopRight && (
+                <View
+                    style={[
+                        {
+                            position: 'absolute',
+                            top: 9,
+                            right: 10,
+                            flexShrink: 1
+                        },
+                        badgeStyle
+                    ]}
+                    pointerEvents="none"
+                >
+                    {badge}
+                </View>
+            )}
         </Pressable>
     );
 });
