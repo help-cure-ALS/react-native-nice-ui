@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, View, Alert } from 'react-native';
 import {
     List,
     Text,
+    Badge,
     useTheme,
     ArrowRight,
     Info,
@@ -169,6 +170,81 @@ export default function ListDemoScreen() {
                     title={<Text>Zeile 1{'\n'}Zeile 2</Text>}
                     subtitle={<Text color="tertiary">Auch im Subtitle{'\n'}funktionieren Zeilenumbrüche</Text>}
                 />
+            </List.Section>
+
+            {/* Badge - Right Position (Default) */}
+            <List.Section title="Badge (Right)" rounded>
+                <List.Item
+                    title="Abo"
+                    subtitle="Premium Plan"
+                    badge={<Badge label="Aktiv" variant="success" />}
+                    onPress={() => {}}
+                />
+                <List.Item
+                    title="Zahlung"
+                    subtitle="Visa •••• 4242"
+                    badge={<Badge label="Ausstehend" variant="warning" />}
+                    onPress={() => {}}
+                />
+                <List.Item
+                    title="Konto"
+                    badge={<Badge label="Gesperrt" variant="error" />}
+                    onPress={() => {}}
+                />
+                <List.Item
+                    title="Version"
+                    subtitle="1.2.0"
+                    badge={<Badge label="Info" variant="info" />}
+                />
+            </List.Section>
+
+            {/* Badge - Inline Position */}
+            <List.Section title="Badge (Inline)" rounded>
+                <List.Item
+                    title="Premium"
+                    subtitle="Jetzt verfügbar"
+                    badge={<Badge label="Neu" variant="info" size="small" />}
+                    badgePosition="inline"
+                    onPress={() => {}}
+                />
+                <List.Item
+                    title="Dark Mode"
+                    badge={<Badge label="Beta" variant="default" size="small" />}
+                    badgePosition="inline"
+                    onPress={() => {}}
+                />
+                <List.Item
+                    title="VIP Bereich"
+                    subtitle="Exklusive Inhalte"
+                    badge={<Badge label="VIP" color="#D4AF37" textColor="#fff" size="small" />}
+                    badgePosition="inline"
+                    onPress={() => {}}
+                />
+            </List.Section>
+
+            {/* Badge + rightCmp combined */}
+            <List.Section title="Badge + Right Component" rounded>
+                <List.Item
+                    title="Benachrichtigungen"
+                    badge={<Badge label="3" variant="error" />}
+                    rightCmp={<Check width={20} height={20} fill={colors.primary} />}
+                    hideChevron
+                />
+            </List.Section>
+
+            {/* Standalone Badge */}
+            <List.Section title="Standalone Badge">
+                <List.Wrapper>
+                    <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+                        <Badge label="Success" variant="success" />
+                        <Badge label="Warning" variant="warning" />
+                        <Badge label="Error" variant="error" />
+                        <Badge label="Info" variant="info" />
+                        <Badge label="Default" variant="default" />
+                        <Badge label="Small" variant="info" size="small" />
+                        <Badge label="Custom" color="#6B3FA0" textColor="#fff" />
+                    </View>
+                </List.Wrapper>
             </List.Section>
 
             {/* customStyles Override Demo */}

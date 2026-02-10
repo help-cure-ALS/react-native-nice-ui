@@ -136,6 +136,8 @@ Common props (see `ListItemProps`):
 - `title?: string`
 - `subtitle?: string | null`
 - `rightTitle?: string`
+- `badge?: ReactNode` — badge element (e.g. `<Badge label="Aktiv" variant="success" />`)
+- `badgePosition?: 'inline' | 'right'` — badge position (`'right'` by default)
 - `onPress?: () => void`
 - `onLongPress?: () => void`
 - `type?: 'checkbox' | null`
@@ -152,10 +154,47 @@ import InfoIcon from '@/assets/svg/info.svg';
 <List.Item
   title="About"
   leftCmp={<InfoIcon width={20} height={20} />}
-  rightCmp={<Badge />}
+  rightCmp={<StatusBadge />}
   onPress={() => router.push('/about')}
 />
 ```
+
+### Example: Badge
+
+```tsx
+import { Badge } from 'react-native-nice-ui';
+
+// Right position (default) — before chevron/checkbox/rightCmp
+<List.Item
+  title="Abo"
+  subtitle="Premium Plan"
+  badge={<Badge label="Aktiv" variant="success" />}
+  onPress={() => {}}
+/>
+
+// Inline — next to title text
+<List.Item
+  title="Premium"
+  badge={<Badge label="Neu" variant="info" size="small" />}
+  badgePosition="inline"
+/>
+```
+
+Badge position layout:
+
+```
+┌──────────────────────────────────────────────────┐
+│  [Icon]  Title  [① inline]       [② right]  [>]  │
+│          Subtitle                                  │
+└──────────────────────────────────────────────────┘
+```
+
+| Position | `badgePosition` | Description |
+|---|---|---|
+| ① | `'inline'` | In the title row, right after the title text |
+| ② | `'right'` | Right area, vertically centered, before chevron/checkbox (default) |
+
+See [Badge README](../Badge/README.md) for the full Badge component API.
 
 ---
 

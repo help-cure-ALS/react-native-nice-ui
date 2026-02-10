@@ -69,6 +69,12 @@ export type ListItemProps = {
     /** Style applied to the divider (borderBottom*) */
     dividerStyle?: StyleProp<ViewStyle>;
 
+    // badge
+    /** Badge element (e.g. <Badge label="Aktiv" variant="success" />) */
+    badge?: ReactNode;
+    /** Badge position: 'right' (default) or 'inline' (next to title) */
+    badgePosition?: 'inline' | 'right';
+
     // affordances
     type?: 'checkbox' | null;
     checked?: boolean | null;
@@ -130,6 +136,10 @@ const ListItem = memo<ListItemProps>((props) => {
         titleRowStyle,
         rightIconContainerStyle,
         dividerStyle,
+
+        // badge
+        badge = null,
+        badgePosition = 'right',
 
         // affordances
         type = null,
@@ -309,6 +319,11 @@ const ListItem = memo<ListItemProps>((props) => {
                         )}
 
                         {titleCmp && <View>{titleCmp}</View>}
+                        {!!badge && badgePosition === 'inline' && (
+                            <View style={{ marginLeft: tokens.spacingSm }}>
+                                {badge}
+                            </View>
+                        )}
                     </View>
 
                     {showSubtitle && (
@@ -344,6 +359,12 @@ const ListItem = memo<ListItemProps>((props) => {
                         ) : (
                             rightTitle
                         )}
+                    </View>
+                )}
+
+                {!!badge && badgePosition === 'right' && (
+                    <View style={{ marginLeft: tokens.spacingSm }}>
+                        {badge}
                     </View>
                 )}
 
