@@ -161,6 +161,104 @@ export default function ButtonsScreen() {
                 <Button title="Full Width Outline" variant="outline" fullWidth onPress={() => {}} />
             </View>
 
+            <SectionTitle>Custom Variants (Provider)</SectionTitle>
+
+            <View style={styles.section}>
+                <Button
+                    title="Warning"
+                    variant="warning"
+                    onPress={() => Alert.alert('Warning')}
+                />
+            </View>
+
+            <View style={styles.section}>
+                <Button
+                    title="Premium"
+                    variant="premium"
+                    onPress={() => Alert.alert('Premium')}
+                />
+            </View>
+
+            <View style={styles.section}>
+                <Button
+                    title="Premium Rounded"
+                    variant="premium"
+                    rounded
+                    size="large"
+                    onPress={() => Alert.alert('Premium')}
+                />
+            </View>
+
+            <SectionTitle>variantStyle (Per Instance)</SectionTitle>
+
+            <View style={styles.section}>
+                <Button
+                    title="Static Override"
+                    variant="primary"
+                    variantStyle={{
+                        container: { backgroundColor: '#8B5CF6' },
+                        text: { color: '#ffffff' },
+                    }}
+                    onPress={() => Alert.alert('Static Override')}
+                />
+            </View>
+
+            <View style={styles.section}>
+                <Button
+                    title="Dynamic Override"
+                    variant="outline"
+                    variantStyle={({ pressed, colors: c }) => ({
+                        container: {
+                            borderColor: pressed ? c.primary : '#D4AF37',
+                            borderWidth: 2,
+                        },
+                        text: { color: '#D4AF37' },
+                    })}
+                    onPress={() => Alert.alert('Dynamic Override')}
+                />
+            </View>
+
+            <SectionTitle>With Subtitle</SectionTitle>
+
+            <View style={styles.section}>
+                <Button
+                    title="Upgrade to Pro"
+                    subtitle="ab 4,99 € / Monat"
+                    size="large"
+                    onPress={() => {}}
+                />
+            </View>
+
+            <View style={styles.section}>
+                <Button
+                    title="Löschen"
+                    subtitle="Kann nicht rückgängig gemacht werden"
+                    variant="destructive"
+                    onPress={() => {}}
+                />
+            </View>
+
+            <View style={styles.section}>
+                <Button
+                    title="Weiter"
+                    subtitle="Schritt 2 von 3"
+                    variant="tinted"
+                    fullWidth
+                    onPress={() => {}}
+                />
+            </View>
+
+            <View style={styles.section}>
+                <Button
+                    title="Premium"
+                    subtitle="Jetzt freischalten"
+                    variant="premium"
+                    rounded
+                    size="large"
+                    onPress={() => {}}
+                />
+            </View>
+
             <SectionTitle>States</SectionTitle>
 
             <View style={styles.section}>

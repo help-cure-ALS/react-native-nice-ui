@@ -11,12 +11,15 @@ import {
 } from 'react-native';
 
 import { useTheme } from '../theme';
+import type { ButtonVariantStyleValue } from '../theme/ThemeProvider';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'success' | 'tinted';
+export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'success' | 'tinted' | (string & {});
 export type ButtonSize = 'small' | 'medium' | 'large';
 
 export type ButtonProps = {
     title?: string;
+    /** Smaller text below the title */
+    subtitle?: string;
     variant?: ButtonVariant;
     size?: ButtonSize;
     /** Fully rounded corners (pill shape) */
@@ -35,8 +38,12 @@ export type ButtonProps = {
     onPress?: () => void;
     onLongPress?: () => void;
 
+    /** Override or extend the variant styles for this button instance */
+    variantStyle?: ButtonVariantStyleValue;
+
     style?: StyleProp<ViewStyle>;
     textStyle?: StyleProp<TextStyle>;
+    subtitleStyle?: StyleProp<TextStyle>;
     children?: ReactNode;
 };
 
@@ -49,11 +56,12 @@ const COLORS = {
 };
 
 const Button = memo<ButtonProps>((props) => {
-    const { colors, tokens, isDark } = useTheme();
+    const { colors, tokens, isDark, customVariants } = useTheme();
     const styles = useMemo(() => createStyles(), []);
 
     const {
         title,
+        subtitle,
         variant = 'primary',
         size = 'medium',
         rounded = false,
@@ -65,8 +73,10 @@ const Button = memo<ButtonProps>((props) => {
         rightIcon,
         onPress,
         onLongPress,
+        variantStyle,
         style,
         textStyle,
+        subtitleStyle,
         children
     } = props;
 
@@ -77,18 +87,21 @@ const Button = memo<ButtonProps>((props) => {
             height: tokens.buttonHeightSm,
             paddingHorizontal: tokens.buttonPaddingHorizontalSm,
             fontSize: tokens.fontSizeSm,
+            subtitleFontSize: tokens.fontSizeXs,
             iconSize: tokens.buttonHeightSm
         },
         medium: {
             height: tokens.buttonHeightMd,
             paddingHorizontal: tokens.buttonPaddingHorizontalMd,
             fontSize: tokens.fontSizeMd,
+            subtitleFontSize: tokens.fontSizeSm,
             iconSize: tokens.buttonHeightMd
         },
         large: {
             height: tokens.buttonHeightLg,
             paddingHorizontal: tokens.buttonPaddingHorizontalLg,
             fontSize: tokens.fontSizeXl,
+            subtitleFontSize: tokens.fontSizeSm,
             iconSize: tokens.buttonHeightLg
         }
     };
@@ -97,7 +110,7 @@ const Button = memo<ButtonProps>((props) => {
         return isDark ? 'rgba(0, 122, 255, 0.25)' : 'rgba(0, 122, 255, 0.12)';
     };
 
-    const getVariantStyles = (pressed: boolean): { container: ViewStyle; text: TextStyle } => {
+    const getBuiltInVariantStyles = (pressed: boolean): { container: ViewStyle; text: TextStyle } => {
         const pressedOpacity = pressed ? 0.8 : 1;
 
         switch (variant) {
@@ -112,7 +125,7 @@ const Button = memo<ButtonProps>((props) => {
             case 'secondary':
                 return {
                     container: {
-                        backgroundColor: colors.listItemBackground,
+                        backgroundColor: colors.buttonSecondaryBackground,
                         opacity: pressedOpacity
                     },
                     text: { color: colors.textPrimary }
@@ -130,7 +143,7 @@ const Button = memo<ButtonProps>((props) => {
             case 'ghost':
                 return {
                     container: {
-                        backgroundColor: pressed ? colors.listItemBackgroundPress : 'transparent'
+                        backgroundColor: pressed ? colors.buttonGhostBackgroundPress : 'transparent'
                     },
                     text: { color: colors.primary }
                 };
@@ -167,6 +180,27 @@ const Button = memo<ButtonProps>((props) => {
         }
     };
 
+    const getVariantStyles = (pressed: boolean): { container: ViewStyle; text: TextStyle } => {
+        const ctx = { pressed, colors, tokens, isDark };
+
+        // 1. Built-in or customVariant from provider
+        const base = customVariants[variant]
+            ? customVariants[variant](ctx)
+            : getBuiltInVariantStyles(pressed);
+
+        // 2. Merge with per-instance variantStyle
+        if (!variantStyle) return base;
+
+        const override = typeof variantStyle === 'function'
+            ? variantStyle(ctx)
+            : variantStyle;
+
+        return {
+            container: { ...base.container, ...override.container },
+            text: { ...base.text, ...override.text }
+        };
+    };
+
     const currentSize = sizeStyles[size];
 
     // For iconOnly, use square dimensions
@@ -182,12 +216,14 @@ const Button = memo<ButtonProps>((props) => {
             accessibilityState={{ disabled: disabled || loading }}
             style={({ pressed }) => {
                 const variantStyles = getVariantStyles(pressed && isPressable);
+                const hasSubtitle = !!subtitle && !iconOnly;
                 return [
                     styles.container,
                     {
-                        height: currentSize.height,
+                        [hasSubtitle ? 'minHeight' : 'height']: currentSize.height,
                         width: buttonWidth,
                         paddingHorizontal: buttonPadding,
+                        paddingVertical: hasSubtitle ? tokens.spacingSm : undefined,
                         borderRadius: (rounded || iconOnly) ? currentSize.height / 2 : tokens.buttonRadius
                     },
                     fullWidth && styles.fullWidth,
@@ -214,17 +250,32 @@ const Button = memo<ButtonProps>((props) => {
                                     </View>
                                 )}
                                 {!iconOnly && (title || children) && (
-                                    <Text
-                                        style={[
-                                            styles.text,
-                                            { fontSize: currentSize.fontSize, fontWeight: tokens.fontWeightSemibold },
-                                            variantStyles.text,
-                                            textStyle
-                                        ]}
-                                        numberOfLines={1}
-                                    >
-                                        {children ?? title}
-                                    </Text>
+                                    <View style={subtitle ? styles.textColumn : undefined}>
+                                        <Text
+                                            style={[
+                                                styles.text,
+                                                { fontSize: currentSize.fontSize, fontWeight: tokens.fontWeightSemibold },
+                                                variantStyles.text,
+                                                textStyle
+                                            ]}
+                                            numberOfLines={1}
+                                        >
+                                            {children ?? title}
+                                        </Text>
+                                        {!!subtitle && (
+                                            <Text
+                                                style={[
+                                                    styles.text,
+                                                    { fontSize: currentSize.subtitleFontSize, opacity: 0.7 },
+                                                    variantStyles.text,
+                                                    subtitleStyle
+                                                ]}
+                                                numberOfLines={1}
+                                            >
+                                                {subtitle}
+                                            </Text>
+                                        )}
+                                    </View>
                                 )}
                                 {rightIcon && (
                                     <View style={iconOnly ? undefined : { marginLeft: tokens.spacingSm }}>
@@ -256,6 +307,9 @@ const createStyles = () =>
         },
         text: {
             textAlign: 'center'
+        },
+        textColumn: {
+            alignItems: 'center'
         },
         disabled: {
             opacity: 0.5

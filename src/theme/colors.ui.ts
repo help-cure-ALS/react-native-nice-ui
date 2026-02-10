@@ -25,6 +25,9 @@ export const lightUIColors: UIColors = {
 
     checkboxDisabled: '#C7C7CC',
 
+    buttonSecondaryBackground: '#ffffff',
+    buttonGhostBackgroundPress: '#e3e3e3',
+
     statusBarStyle: 'dark-content',
     statusBar: '#ffffff',
 };
@@ -52,6 +55,9 @@ export const darkUIColors: UIColors = {
     }) as string,
 
     checkboxDisabled: 'rgba(255,255,255, 0.15)',
+
+    buttonSecondaryBackground: 'rgba(255,255,255,0.07)',
+    buttonGhostBackgroundPress: 'rgba(255,255,255,0.1)',
 
     statusBarStyle: 'light-content',
     statusBar: 'rgb(18, 18, 18)',
