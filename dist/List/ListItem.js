@@ -54,11 +54,11 @@ const ListItem = memo((props) => {
             borderRadius: tokens.radiusSm
         },
         columnWrapper: {
-            marginLeft: tokens.listItemMarginLeft
+            marginLeft: tokens.listItemMarginLeft,
         },
         divider: {
-            borderBottomWidth: StyleSheet.hairlineWidth,
-            marginRight: tokens.listItemDividerMarginRight
+            height: StyleSheet.hairlineWidth,
+            marginRight: tokens.listItemDividerMarginRight,
         },
         wrapper: {
             paddingTop: tokens.listItemPaddingVertical,
@@ -200,7 +200,7 @@ const ListItem = memo((props) => {
 
             {!effectiveLastItem && (<View style={[
                 styles.divider,
-                { borderBottomColor: colors.listItemBorder },
+                { backgroundColor: colors.listItemBorder },
                 dividerStyle
             ]}/>)}
             </View>
