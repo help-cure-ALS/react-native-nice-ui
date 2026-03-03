@@ -4,7 +4,7 @@ A reusable UI component library for React Native with theming support, designed 
 
 ## Features
 
-- **List Components** - Section, Item, InputItem, SliderItem, SectionCard, Text, Wrapper
+- **List Components** - Section, Item (with children support), InputItem, SliderItem, SectionCard, Text, Wrapper
 - **Badge** - Status labels with 5 variants, 2 sizes, custom colors
 - **Typography** - Text component with 15 variants (display, headline, title, body, label)
 - **Button** - 7 built-in variants + custom variants, subtitle support, per-instance overrides
@@ -17,7 +17,7 @@ A reusable UI component library for React Native with theming support, designed 
 ## Installation
 
 ```bash
-npm install github:help-cure-ALS/react-native-nice-ui#v1.3.0
+npm install github:help-cure-ALS/react-native-nice-ui#v1.3.1
 ```
 
 ### Peer Dependencies
@@ -142,6 +142,24 @@ Compound component for building iOS-style lists.
         badgePosition="top-right"
         onPress={() => {}}
     />
+</List.Section>
+
+// Children (custom content below the row)
+<List.Section title="Details" rounded>
+    <List.Item title="Storage" subtitle="iCloud">
+        <View style={{ paddingHorizontal: 16, paddingBottom: 12 }}>
+            <ProgressBar value={0.7} />
+        </View>
+    </List.Item>
+    <List.Item
+        title="Tags"
+        childrenStyle={{ paddingHorizontal: 16, paddingBottom: 12 }}
+    >
+        <View style={{ flexDirection: 'row', gap: 6 }}>
+            <Badge label="React" variant="info" size="small" />
+            <Badge label="TypeScript" variant="success" size="small" />
+        </View>
+    </List.Item>
 </List.Section>
 
 // Slider Items (requires @react-native-community/slider)
@@ -418,8 +436,8 @@ buttonRadius
 
 // List
 listItemMinHeight, listItemPaddingVertical, listItemPaddingRight
-listItemMarginLeft, listItemRadius, listSectionMarginTop
-listSectionPaddingHorizontal, listSectionRadius, listSpacedGap
+listItemMarginLeft, listItemRadius, listItemDividerMarginRight
+listSectionMarginTop, listSectionPaddingHorizontal, listSectionRadius, listSpacedGap
 ```
 
 ---
@@ -431,6 +449,7 @@ The library automatically adjusts styles for iOS 26:
 - Larger horizontal paddings on list sections
 - Larger border radius on cards and sections
 - Increased list item min height
+- List item dividers with right-side inset (matching native iOS 26 appearance)
 
 Use `isIOSVersionOrHigher(26)` for custom adjustments:
 
