@@ -56,5 +56,6 @@ export const defaultTokens: UITokens = {
     listSectionMarginTop: 30,
     listSectionPaddingHorizontal: isIOSVersionOrHigher(26) ? 20 : 13,
     listSectionRadius: isIOSVersionOrHigher(26) ? 16 : 10,
-    listSpacedGap: 10
+    listSpacedGap: 10,
+    listItemDividerMarginRight: isIOSVersionOrHigher(26) ? 14 : 0
 };

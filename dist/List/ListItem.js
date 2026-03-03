@@ -54,8 +54,11 @@ const ListItem = memo((props) => {
             borderRadius: tokens.radiusSm
         },
         columnWrapper: {
-            borderBottomWidth: StyleSheet.hairlineWidth,
             marginLeft: tokens.listItemMarginLeft
+        },
+        divider: {
+            borderBottomWidth: StyleSheet.hairlineWidth,
+            marginRight: tokens.listItemDividerMarginRight
         },
         wrapper: {
             paddingTop: tokens.listItemPaddingVertical,
@@ -113,12 +116,7 @@ const ListItem = memo((props) => {
             disabled && { opacity: 0.5 },
             pressed && isPressable && !disabled && { backgroundColor: colors.listItemBackgroundPress }
         ]}>
-            <View style={[
-            styles.columnWrapper,
-            { borderBottomColor: colors.listItemBorder },
-            effectiveLastItem && { borderBottomWidth: 0 },
-            dividerStyle
-        ]}>
+            <View style={styles.columnWrapper}>
             <View style={[
             styles.wrapper,
             wrapperStyle
@@ -199,6 +197,12 @@ const ListItem = memo((props) => {
             {children && (<View style={childrenStyle}>
                     {children}
                 </View>)}
+
+            {!effectiveLastItem && (<View style={[
+                styles.divider,
+                { borderBottomColor: colors.listItemBorder },
+                dividerStyle
+            ]}/>)}
             </View>
 
             {isTopRight && (<View style={[

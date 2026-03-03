@@ -53,4 +53,5 @@ export interface UITokens {
     listSectionPaddingHorizontal: number;
     listSectionRadius: number;
     listSpacedGap: number;
+    listItemDividerMarginRight: number;
 }
