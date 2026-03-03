@@ -92,8 +92,10 @@ export type ListItemProps = {
     onPress?: (() => void) | undefined;
     onLongPress?: (() => void) | undefined;
 
-    // children passthrough
+    // children
     children?: ReactNode;
+    /** Style for the children wrapper (rendered below the row) */
+    childrenStyle?: StyleProp<ViewStyle>;
 };
 
 const ListItem = memo<ListItemProps>((props) => {
@@ -159,7 +161,8 @@ const ListItem = memo<ListItemProps>((props) => {
         onLongPress,
 
         // children
-        children
+        children,
+        childrenStyle
     } = props;
 
     // For checkbox type, hideChevron defaults to true but can be overridden with hideChevron={false}
@@ -195,6 +198,10 @@ const ListItem = memo<ListItemProps>((props) => {
         listItemImage: {
             borderRadius: tokens.radiusSm
         },
+        columnWrapper: {
+            borderBottomWidth: StyleSheet.hairlineWidth,
+            marginLeft: tokens.listItemMarginLeft
+        },
         wrapper: {
             paddingTop: tokens.listItemPaddingVertical,
             paddingRight: tokens.listItemPaddingRight,
@@ -203,8 +210,6 @@ const ListItem = memo<ListItemProps>((props) => {
             flexDirection: 'row' as const,
             alignItems: 'center' as const,
             minHeight: tokens.listItemMinHeight,
-            borderBottomWidth: StyleSheet.hairlineWidth,
-            marginLeft: tokens.listItemMarginLeft
         },
         titleRow: {
             flexDirection: 'row' as const,
@@ -267,10 +272,15 @@ const ListItem = memo<ListItemProps>((props) => {
         >
             <View
                 style={[
-                    styles.wrapper,
+                    styles.columnWrapper,
                     { borderBottomColor: colors.listItemBorder },
                     effectiveLastItem && { borderBottomWidth: 0 },
-                    dividerStyle,
+                    dividerStyle
+                ]}
+            >
+            <View
+                style={[
+                    styles.wrapper,
                     wrapperStyle
                 ]}
             >
@@ -399,7 +409,13 @@ const ListItem = memo<ListItemProps>((props) => {
                     </View>
                 )}
 
-                {children}
+            </View>
+
+            {children && (
+                <View style={childrenStyle}>
+                    {children}
+                </View>
+            )}
             </View>
 
             {isTopRight && (

@@ -23,7 +23,7 @@ const ListItem = memo((props) => {
     // behavior
     disabled = false, lastItem = false, onPress, onLongPress, 
     // children
-    children } = props;
+    children, childrenStyle } = props;
     // For checkbox type, hideChevron defaults to true but can be overridden with hideChevron={false}
     const hideChevron = hideChevronProp !== null && hideChevronProp !== void 0 ? hideChevronProp : (type === 'checkbox');
     // In spaced mode, each item is a separate card (no dividers)
@@ -53,6 +53,10 @@ const ListItem = memo((props) => {
         listItemImage: {
             borderRadius: tokens.radiusSm
         },
+        columnWrapper: {
+            borderBottomWidth: StyleSheet.hairlineWidth,
+            marginLeft: tokens.listItemMarginLeft
+        },
         wrapper: {
             paddingTop: tokens.listItemPaddingVertical,
             paddingRight: tokens.listItemPaddingRight,
@@ -61,8 +65,6 @@ const ListItem = memo((props) => {
             flexDirection: 'row',
             alignItems: 'center',
             minHeight: tokens.listItemMinHeight,
-            borderBottomWidth: StyleSheet.hairlineWidth,
-            marginLeft: tokens.listItemMarginLeft
         },
         titleRow: {
             flexDirection: 'row',
@@ -112,10 +114,13 @@ const ListItem = memo((props) => {
             pressed && isPressable && !disabled && { backgroundColor: colors.listItemBackgroundPress }
         ]}>
             <View style={[
-            styles.wrapper,
+            styles.columnWrapper,
             { borderBottomColor: colors.listItemBorder },
             effectiveLastItem && { borderBottomWidth: 0 },
-            dividerStyle,
+            dividerStyle
+        ]}>
+            <View style={[
+            styles.wrapper,
             wrapperStyle
         ]}>
                 {hasLeftCmp && (<View style={[
@@ -189,7 +194,11 @@ const ListItem = memo((props) => {
                         <ArrowRight width={rightIconSize} height={rightIconSize} fill={rightIconColor}/>
                     </View>)}
 
-                {children}
+            </View>
+
+            {children && (<View style={childrenStyle}>
+                    {children}
+                </View>)}
             </View>
 
             {isTopRight && (<View style={[

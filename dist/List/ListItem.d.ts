@@ -55,6 +55,8 @@ export type ListItemProps = {
     onPress?: (() => void) | undefined;
     onLongPress?: (() => void) | undefined;
     children?: ReactNode;
+    /** Style for the children wrapper (rendered below the row) */
+    childrenStyle?: StyleProp<ViewStyle>;
 };
 declare const ListItem: React.NamedExoticComponent<ListItemProps>;
 export { ListItem };

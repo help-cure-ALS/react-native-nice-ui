@@ -276,6 +276,30 @@ export default function ListDemoScreen() {
                 </List.Wrapper>
             </List.Section>
 
+            {/* Children Demo */}
+            <List.Section title="Children (Below Row)" rounded>
+                <List.Item
+                    title="Item mit Children"
+                    subtitle="Content wird unter der Row angezeigt"
+                    onPress={() => {}}
+                >
+                    <View style={{ paddingHorizontal: 16, paddingBottom: 12 }}>
+                        <View style={{ height: 8, backgroundColor: colors.primary, borderRadius: 4, width: '70%' }} />
+                        <Text color="tertiary" variant="footnote" style={{ marginTop: 4 }}>70% abgeschlossen</Text>
+                    </View>
+                </List.Item>
+                <List.Item
+                    title="Mit childrenStyle"
+                    childrenStyle={{ paddingHorizontal: 16, paddingBottom: 12 }}
+                >
+                    <View style={{ flexDirection: 'row', gap: 6 }}>
+                        <Badge label="React" variant="info" size="small" />
+                        <Badge label="TypeScript" variant="success" size="small" />
+                        <Badge label="Expo" variant="default" size="small" />
+                    </View>
+                </List.Item>
+            </List.Section>
+
             {/* customStyles Override Demo */}
             <List.Section title="Custom Styles (Global)" rounded>
                 <List.Item
