@@ -4,7 +4,7 @@ A reusable UI component library for React Native with theming support, designed 
 
 ## Features
 
-- **List Components** - Section, Item (with children support), InputItem, SliderItem, SectionCard, Text, Wrapper
+- **List Components** - Section, Item (with children support), InputItem, SliderItem, SectionCard, Text, Wrapper, iOS-style divider inset
 - **Badge** - Status labels with 5 variants, 2 sizes, custom colors
 - **Typography** - Text component with 15 variants (display, headline, title, body, label)
 - **Button** - 7 built-in variants + custom variants, subtitle support, per-instance overrides
@@ -140,6 +140,25 @@ Compound component for building iOS-style lists.
         subtitle="Premium Plan"
         badge={<Badge label="Active" variant="success" size="small" />}
         badgePosition="top-right"
+        onPress={() => {}}
+    />
+</List.Section>
+
+// Divider Inset (iOS-style separator inset with leftCmp)
+// When leftCmpSize is set, the divider automatically indents to align with the text
+<List.Section title="Settings" rounded>
+    <List.Item
+        title="Wi-Fi"
+        subtitle="Connected"
+        leftCmp={<WifiIcon />}
+        leftCmpSize={30}
+        onPress={() => {}}
+    />
+    <List.Item
+        title="Bluetooth"
+        subtitle="On"
+        leftCmp={<BluetoothIcon />}
+        leftCmpSize={30}
         onPress={() => {}}
     />
 </List.Section>
@@ -450,6 +469,7 @@ The library automatically adjusts styles for iOS 26:
 - Larger border radius on cards and sections
 - Increased list item min height
 - List item dividers with right-side inset (matching native iOS 26 appearance)
+- Automatic divider left inset when `leftCmpSize` is set (iOS-style separator inset)
 
 Use `isIOSVersionOrHigher(26)` for custom adjustments:
 

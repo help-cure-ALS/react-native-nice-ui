@@ -43,7 +43,7 @@ export const defaultTokens = {
     listItemMinHeight: isIOSVersionOrHigher(26) ? 52 : 48,
     listItemPaddingVertical: 12,
     listItemPaddingRight: isIOSVersionOrHigher(26) ? 14 : 10,
-    listItemMarginLeft: isIOSVersionOrHigher(26) ? 20 : (Platform.OS === 'ios' ? 18 : 20),
+    listItemMarginLeft: isIOSVersionOrHigher(26) ? 14 : (Platform.OS === 'ios' ? 18 : 20),
     listItemRadius: isIOSVersionOrHigher(26) ? 14 : 10,
     listSectionMarginTop: 30,
     listSectionPaddingHorizontal: isIOSVersionOrHigher(26) ? 20 : 13,

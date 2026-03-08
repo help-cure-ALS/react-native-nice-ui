@@ -35,6 +35,10 @@ const ListItem = memo((props) => {
     const isPressable = !!(onPress || onLongPress);
     const isTopRight = !!badge && badgePosition === 'top-right';
     const showSubtitle = subtitle !== null && subtitle !== '';
+    // Divider inset: when leftCmp is present, inset by its width + spacing
+    const dividerInset = hasLeftCmp && leftCmpSize != null
+        ? leftCmpSize + tokens.spacingLg
+        : 0;
     // Dynamic styles using tokens
     const styles = {
         container: {},
@@ -201,6 +205,7 @@ const ListItem = memo((props) => {
             {!effectiveLastItem && (<View style={[
                 styles.divider,
                 { backgroundColor: colors.listItemBorder },
+                dividerInset > 0 && { marginLeft: dividerInset },
                 dividerStyle
             ]}/>)}
             </View>

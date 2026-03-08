@@ -100,6 +100,37 @@ export default function ListDemoScreen() {
 
             </List.Section>
 
+            {/* Divider Inset with leftCmp */}
+            <List.Section title="Divider Inset (leftCmp)" rounded>
+                <List.Item
+                    title="WLAN"
+                    subtitle="Verbunden"
+                    leftCmp={<View style={{ width: 30, height: 30, borderRadius: 8, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center' }}><Info width={18} height={18} fill="#fff" /></View>}
+                    leftCmpSize={30}
+                    onPress={() => {}}
+                />
+                <List.Item
+                    title="Bluetooth"
+                    subtitle="Ein"
+                    leftCmp={<View style={{ width: 30, height: 30, borderRadius: 8, backgroundColor: '#007AFF', alignItems: 'center', justifyContent: 'center' }}><Info width={18} height={18} fill="#fff" /></View>}
+                    leftCmpSize={30}
+                    onPress={() => {}}
+                />
+                <List.Item
+                    title="Mobiles Netz"
+                    leftCmp={<View style={{ width: 30, height: 30, borderRadius: 8, backgroundColor: '#34C759', alignItems: 'center', justifyContent: 'center' }}><Check width={18} height={18} fill="#fff" /></View>}
+                    leftCmpSize={30}
+                    onPress={() => {}}
+                />
+                <List.Item
+                    title="Persönlicher Hotspot"
+                    subtitle="Aus"
+                    leftCmp={<View style={{ width: 30, height: 30, borderRadius: 8, backgroundColor: '#34C759', alignItems: 'center', justifyContent: 'center' }}><ArrowRight width={18} height={18} fill="#fff" /></View>}
+                    leftCmpSize={30}
+                    onPress={() => {}}
+                />
+            </List.Section>
+
             {/* Disabled Items */ }
             <List.Section title="Disabled Items">
 

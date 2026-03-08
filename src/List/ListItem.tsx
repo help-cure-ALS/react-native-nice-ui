@@ -180,6 +180,11 @@ const ListItem = memo<ListItemProps>((props) => {
 
     const showSubtitle = subtitle !== null && subtitle !== '';
 
+    // Divider inset: when leftCmp is present, inset by its width + spacing
+    const dividerInset = hasLeftCmp && leftCmpSize != null
+        ? leftCmpSize + tokens.spacingLg
+        : 0;
+
     // Dynamic styles using tokens
     const styles = {
         container: {} as ViewStyle,
@@ -418,6 +423,7 @@ const ListItem = memo<ListItemProps>((props) => {
                     style={[
                         styles.divider,
                         { backgroundColor: colors.listItemBorder },
+                        dividerInset > 0 && { marginLeft: dividerInset },
                         dividerStyle
                     ]}
                 />
