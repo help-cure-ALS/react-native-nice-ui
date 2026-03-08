@@ -17,7 +17,7 @@ A reusable UI component library for React Native with theming support, designed 
 ## Installation
 
 ```bash
-npm install github:help-cure-ALS/react-native-nice-ui#v1.3.2
+npm install github:help-cure-ALS/react-native-nice-ui#v1.3.3
 ```
 
 ### Peer Dependencies
