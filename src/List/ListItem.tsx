@@ -244,7 +244,8 @@ const ListItem = memo<ListItemProps>((props) => {
             lineHeight: tokens.lineHeightSm,
         },
         rightTitleContainer: {
-            flex: 0,
+            flexShrink: 1,
+            maxWidth: '50%' as unknown as number,
             alignItems: 'flex-end' as const,
             justifyContent: 'center' as const
         },
