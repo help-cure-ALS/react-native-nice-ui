@@ -98,7 +98,8 @@ const ListItem = memo((props) => {
             lineHeight: tokens.lineHeightSm,
         },
         rightTitleContainer: {
-            flex: 0,
+            flexShrink: 1,
+            maxWidth: '50%',
             alignItems: 'flex-end',
             justifyContent: 'center'
         },
