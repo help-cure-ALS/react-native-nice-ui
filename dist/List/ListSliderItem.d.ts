@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleProp, ViewStyle, TextStyle } from 'react-native';
-declare const SliderAvailable: boolean;
+declare let SliderAvailable: boolean;
 export { SliderAvailable };
 import type { SliderProps } from '@react-native-community/slider';
 export interface ListSliderItemProps extends Omit<SliderProps, 'style' | 'value' | 'onValueChange'> {

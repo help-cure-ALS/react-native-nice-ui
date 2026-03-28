@@ -4,7 +4,6 @@ import {
     StyleProp,
     StyleSheet,
     Text,
-    UIManager,
     View,
     ViewStyle,
     TextStyle
@@ -13,20 +12,22 @@ import {
 import { useTheme } from '../theme';
 import { useListContext } from './List';
 
-// Check if native slider is available (Paper + Fabric), e.g. not in Expo Go
-const SliderAvailable =
-    UIManager.getViewManagerConfig?.('RNCSlider') != null ||
-    (UIManager as any)['RNCSlider'] != null;
+// Detect Expo Go where native modules are not linked
+let _isExpoGo = false;
+try {
+    const Constants = require('expo-constants').default;
+    _isExpoGo = Constants?.executionEnvironment === 'storeClient';
+} catch (e) {}
 
-// Conditional import - only load if native module is linked
+// Conditional import – skip entirely in Expo Go to avoid native crash
 let Slider: React.ComponentType<any> | null = null;
-
-if (SliderAvailable) {
+let SliderAvailable = false;
+if (!_isExpoGo) {
     try {
         Slider = require('@react-native-community/slider').default;
-    }
-    catch (e) {
-        // Module not installed
+        SliderAvailable = Slider != null;
+    } catch (e) {
+        // Package not installed
     }
 }
 

@@ -1,19 +1,24 @@
-var _a;
 import React, { memo, useState, useCallback } from 'react';
-import { Platform, StyleSheet, Text, UIManager, View } from 'react-native';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 import { useTheme } from '../theme';
 import { useListContext } from './List';
-// Check if native slider is available (Paper + Fabric), e.g. not in Expo Go
-const SliderAvailable = ((_a = UIManager.getViewManagerConfig) === null || _a === void 0 ? void 0 : _a.call(UIManager, 'RNCSlider')) != null ||
-    UIManager['RNCSlider'] != null;
-// Conditional import - only load if native module is linked
+// Detect Expo Go where native modules are not linked
+let _isExpoGo = false;
+try {
+    const Constants = require('expo-constants').default;
+    _isExpoGo = (Constants === null || Constants === void 0 ? void 0 : Constants.executionEnvironment) === 'storeClient';
+}
+catch (e) { }
+// Conditional import – skip entirely in Expo Go to avoid native crash
 let Slider = null;
-if (SliderAvailable) {
+let SliderAvailable = false;
+if (!_isExpoGo) {
     try {
         Slider = require('@react-native-community/slider').default;
+        SliderAvailable = Slider != null;
     }
     catch (e) {
-        // Module not installed
+        // Package not installed
     }
 }
 // Re-export availability check
