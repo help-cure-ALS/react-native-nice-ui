@@ -3,9 +3,10 @@ import React, { memo, useState, useCallback } from 'react';
 import { Platform, StyleSheet, Text, UIManager, View } from 'react-native';
 import { useTheme } from '../theme';
 import { useListContext } from './List';
-// Check if native slider component is available (not in Expo Go)
-const SliderAvailable = ((_a = UIManager.getViewManagerConfig) === null || _a === void 0 ? void 0 : _a.call(UIManager, 'RNCSlider')) != null;
-// Conditional import - only use if native module is available
+// Check if native slider is available (Paper + Fabric), e.g. not in Expo Go
+const SliderAvailable = ((_a = UIManager.getViewManagerConfig) === null || _a === void 0 ? void 0 : _a.call(UIManager, 'RNCSlider')) != null ||
+    UIManager['RNCSlider'] != null;
+// Conditional import - only load if native module is linked
 let Slider = null;
 if (SliderAvailable) {
     try {

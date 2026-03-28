@@ -13,15 +13,19 @@ import {
 import { useTheme } from '../theme';
 import { useListContext } from './List';
 
-// Check if native slider component is available (not in Expo Go)
-const SliderAvailable = UIManager.getViewManagerConfig?.('RNCSlider') != null;
+// Check if native slider is available (Paper + Fabric), e.g. not in Expo Go
+const SliderAvailable =
+    UIManager.getViewManagerConfig?.('RNCSlider') != null ||
+    (UIManager as any)['RNCSlider'] != null;
 
-// Conditional import - only use if native module is available
+// Conditional import - only load if native module is linked
 let Slider: React.ComponentType<any> | null = null;
+
 if (SliderAvailable) {
     try {
         Slider = require('@react-native-community/slider').default;
-    } catch (e) {
+    }
+    catch (e) {
         // Module not installed
     }
 }
@@ -124,7 +128,7 @@ export const ListSliderItem = memo<ListSliderItemProps>((props) => {
     }, [onSlidingComplete]);
 
     // Format the displayed value
-    const displayValue = `${valuePrefix}${currentValue.toFixed(toFixed)}${valueSuffix}`;
+    const displayValue = `${ valuePrefix }${ currentValue.toFixed(toFixed) }${ valueSuffix }`;
 
     const styles = {
         container: {} as ViewStyle,
@@ -175,75 +179,75 @@ export const ListSliderItem = memo<ListSliderItemProps>((props) => {
 
     return (
         <View
-            style={[
+            style={ [
                 styles.container,
                 spaced && styles.containerSpaced,
                 { backgroundColor: colors.listItemBackground },
                 containerStyle,
                 disabled && { opacity: 0.5 }
-            ]}
+            ] }
         >
             <View
-                style={[
+                style={ [
                     styles.wrapper,
                     { borderBottomColor: colors.listItemBorder },
                     effectiveLastItem && { borderBottomWidth: 0 },
                     dividerStyle,
                     wrapperStyle
-                ]}
+                ] }
             >
-                {/* Header Row: Label + Value */}
-                <View style={styles.headerRow}>
-                    {label && (
+                {/* Header Row: Label + Value */ }
+                <View style={ styles.headerRow }>
+                    { label && (
                         <Text
-                            style={[
+                            style={ [
                                 styles.label,
                                 { color: colors.textTertiary },
                                 isFocused && styles.labelFocused,
                                 labelStyle
-                            ]}
-                            numberOfLines={1}
+                            ] }
+                            numberOfLines={ 1 }
                         >
-                            {label}{required ? ' *' : ''}
+                            { label }{ required ? ' *' : '' }
                         </Text>
-                    )}
-                    {!hideValue && (
+                    ) }
+                    { !hideValue && (
                         <Text
-                            style={[
+                            style={ [
                                 styles.value,
                                 { color: colors.textPrimary },
                                 valueStyle
-                            ]}
+                            ] }
                         >
-                            {displayValue}
+                            { displayValue }
                         </Text>
-                    )}
+                    ) }
                 </View>
 
-                {/* Slider */}
-                <View style={styles.sliderContainer}>
-                    {Slider ? (
+                {/* Slider */ }
+                <View style={ styles.sliderContainer }>
+                    { Slider ? (
                         <Slider
-                            style={[styles.slider, sliderStyle]}
-                            value={currentValue}
-                            minimumValue={minimumValue}
-                            maximumValue={maximumValue}
-                            step={step}
-                            minimumTrackTintColor={minimumTrackTintColor ?? colors.primary}
-                            maximumTrackTintColor={maximumTrackTintColor ?? colors.border}
-                            thumbTintColor={thumbTintColor ?? (Platform.OS === 'android' ? colors.primary : undefined)}
-                            disabled={disabled}
-                            tapToSeek={true}
-                            onValueChange={handleValueChange}
-                            onSlidingStart={handleSlidingStart}
-                            onSlidingComplete={handleSlidingComplete}
-                            {...sliderProps}
+                            style={ [styles.slider, sliderStyle] }
+                            value={ currentValue }
+                            minimumValue={ minimumValue }
+                            maximumValue={ maximumValue }
+                            step={ step }
+                            minimumTrackTintColor={ minimumTrackTintColor ?? colors.primary }
+                            maximumTrackTintColor={ maximumTrackTintColor ?? colors.border }
+                            thumbTintColor={ thumbTintColor ?? (Platform.OS === 'android' ? colors.primary : undefined) }
+                            disabled={ disabled }
+                            tapToSeek={ true }
+                            onValueChange={ handleValueChange }
+                            onSlidingStart={ handleSlidingStart }
+                            onSlidingComplete={ handleSlidingComplete }
+                            { ...sliderProps }
                         />
                     ) : (
-                        <Text style={{ color: colors.textHint, fontSize: tokens.fontSizeSm, fontStyle: 'italic' }}>
+                        <Text style={ { color: colors.textHint, fontSize: tokens.fontSizeSm, fontStyle: 'italic' } }>
                             Slider requires development build
                         </Text>
-                    )}
+                    ) }
                 </View>
             </View>
         </View>
